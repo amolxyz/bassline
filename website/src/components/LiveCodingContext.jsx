@@ -22,6 +22,10 @@ export function LiveCodingContext() {
     }
   ];
 
+
+
+  
+
   return (
     <div className="mb-4">
       <button
@@ -33,7 +37,7 @@ export function LiveCodingContext() {
         <ChevronDown size={12} className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
       </button>
       
-      
+
       {isExpanded && (
         <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
           <div className="space-y-3">
