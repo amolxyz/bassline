@@ -34,25 +34,9 @@ export function Header({ context, embedded = false }) {
             'text-foreground font-bold flex space-x-2 items-center',
           )}
         >
-          <div
-            className={cx(
-              'mt-[1px]',
-              started && !isCSSAnimationDisabled && 'animate-spin',
-              'cursor-pointer text-blue-500',
-              isZen && 'fixed top-2 right-4',
-            )}
-            onClick={() => {
-              if (!isEmbedded) {
-                setIsZen(!isZen);
-              }
-            }}
-          >
-            <span className="block text-foreground rotate-90">꩜</span>
-          </div>
           {!isZen && (
-            <div className="space-x-2">
-              <span className="">strudel</span>
-              <span className="text-sm font-medium">REPL</span>
+            <div className="space-x-2 ml-2">
+              <span className="text-[1.1rem] font-extrabold text-blue-500 italic tracking-tight" style={{ fontFamily: 'Quando, serif' }}>bassline</span>
               {!isEmbedded && isButtonRowHidden && (
                 <a href={`${baseNoTrailing}/learn`} className="text-sm opacity-25 font-medium">
                   DOCS

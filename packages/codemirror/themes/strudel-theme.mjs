@@ -2,8 +2,8 @@ import { tags as t } from '@lezer/highlight';
 import { createTheme } from './theme-helper.mjs';
 
 export const settings = {
-  background: '#222',
-  lineBackground: '#22222299',
+  background: '#323039',
+  lineBackground: '#32303999',
   foreground: '#fff',
   caret: '#ffcc00',
   selection: 'rgba(128, 203, 196, 0.5)',

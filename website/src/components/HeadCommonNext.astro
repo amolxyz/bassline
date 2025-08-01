@@ -10,16 +10,19 @@ const baseNoTrailing = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quando&display=swap" rel="stylesheet">
 
 <link rel="icon" type="image/svg+xml" href={`${baseNoTrailing}/favicon.ico`} />
 
 <meta
   name="description"
-  content="Strudel is a music live coding environment for the browser, porting the TidalCycles pattern language to JavaScript."
+  content="Bassline is a music live coding environment for the browser, porting the TidalCycles pattern language to JavaScript."
 />
 <link rel="icon" href={`${baseNoTrailing}/favicon.ico`} />
 <link rel="apple-touch-icon" href={`${baseNoTrailing}/icons/apple-icon-180.png`} sizes="180x180" />
-<meta name="theme-color" content="#222222" />
+<meta name="theme-color" content="#323039" />
 
 <base href={BASE_URL} />
 
@@ -32,8 +35,8 @@ const baseNoTrailing = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL
 <!-- the following variables are just a fallback to make sure everything is readable without JS -->
 <style is:global>
   :root {
-    --background: #222;
-    --lineBackground: #22222299;
+    --background: #323039;
+    --lineBackground: #32303999;
     --foreground: #fff;
     --caret: #ffcc00;
     --selection: rgba(128, 203, 196, 0.5);

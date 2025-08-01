@@ -9,7 +9,7 @@ export function WelcomeTab({ context }) {
     <div className="prose dark:prose-invert min-w-full pt-2 font-sans pb-8 px-4 " style={{ fontFamily }}>
       <h3>꩜ welcome</h3>
       <p>
-        You have found <span className="underline">strudel</span>, a new live coding platform to write dynamic music
+        You have found <span className="underline">bassline</span>, a new live coding platform to write dynamic music
         pieces in the browser! It is free and open-source and made for beginners and experts alike. To get started:
         <br />
         <br />
@@ -32,17 +32,17 @@ export function WelcomeTab({ context }) {
       </p>
       <h3>꩜ about</h3>
       <p>
-        strudel is a JavaScript version of{' '}
+        bassline is a JavaScript version of{' '}
         <a href="https://tidalcycles.org/" target="_blank">
           tidalcycles
         </a>
-        , which is a popular live coding language for music, written in Haskell. Strudel is free/open source software:
+        , which is a popular live coding language for music, written in Haskell. Bassline is free/open source software:
         you can redistribute and/or modify it under the terms of the{' '}
-        <a href="https://codeberg.org/uzu/strudel/src/branch/main/LICENSE" target="_blank">
+        <a href="https://codeberg.org/uzu/bassline/src/branch/main/LICENSE" target="_blank">
           GNU Affero General Public License
         </a>
         . You can find the source code at{' '}
-        <a href="https://codeberg.org/uzu/strudel" target="_blank">
+        <a href="https://codeberg.org/uzu/bassline" target="_blank">
           github
         </a>
         . You can also find <a href="https://github.com/felixroos/dough-samples/blob/main/README.md">licensing info</a>{' '}

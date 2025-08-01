@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Music Assistant Integration Test</h1>
+        
+        <div class="test-section">
+            <h3>1. API Key Configuration</h3>
+            <input type="password" id="apiKey" placeholder="Enter your Claude API key (sk-ant-api03-...)" />
+            <button onclick="testAPIKey()">Test API Key</button>
+            <div id="apiKeyResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Pattern Generation Test</h3>
+            <input type="text" id="prompt" placeholder="Enter a music prompt (e.g., 'create melody like Ben Bohmer')" />
+            <button onclick="testPatternGeneration()">Generate Pattern</button>
+            <div id="patternResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Fallback System Test</h3>
+            <button onclick="testFallback()">Test Fallback (No API Key)</button>
+            <div id="fallbackResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Example Prompts</h3>
+            <button onclick="testExample('create melody like Ben Bohmer')">Ben Bohmer Melody</button>
+            <button onclick="testExample('make drums like Aphex Twin')">Aphex Twin Drums</button>
+            <button onclick="testExample('create ambient synth pad')">Ambient Synth</button>
+            <button onclick="testExample('generate jazz piano melody')">Jazz Piano</button>
+            <div id="exampleResult"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the AI service
+        import { AIService, setAPIKey } from './src/services/aiService.js';
+
+        let aiService = null;
+
+        window.testAPIKey = async function() {
+            const apiKey = document.getElementById('apiKey').value;
+            const resultDiv = document.getElementById('apiKeyResult');
+            
+            if (!apiKey) {
+                resultDiv.innerHTML = '<div class="error">Please enter an API key</div>';
+                return;
+            }
+
+            try {
+                resultDiv.innerHTML = '<div>Testing API key...</div>';
+                
+                aiService = new AIService(apiKey);
+                const testPattern = await aiService.generateMusicPattern('create a simple drum beat');
+                
+                if (testPattern) {
+                    setAPIKey(apiKey);
+                    resultDiv.innerHTML = '<div class="success">✅ API key is valid! Pattern generated: <pre>' + testPattern + '</pre></div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="error">❌ API key test failed: ' + error.message + '</div>';
+            }
+        };
+
+        window.testPatternGeneration = async function() {
+            const prompt = document.getElementById('prompt').value;
+            const resultDiv = document.getElementById('patternResult');
+            
+            if (!prompt) {
+                resultDiv.innerHTML = '<div class="error">Please enter a prompt</div>';
+                return;
+            }
+
+            try {
+                resultDiv.innerHTML = '<div>Generating pattern...</div>';
+                
+                if (!aiService) {
+                    const apiKey = document.getElementById('apiKey').value;
+                    if (apiKey) {
+                        aiService = new AIService(apiKey);
+                    } else {
+                        aiService = new AIService(null); // Will use fallback
+                    }
+                }
+                
+                const pattern = await aiService.generateMusicPattern(prompt);
+                resultDiv.innerHTML = '<div class="success">✅ Pattern generated: <pre>' + pattern + '</pre></div>';
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="error">❌ Pattern generation failed: ' + error.message + '</div>';
+            }
+        };
+
+        window.testFallback = async function() {
+            const resultDiv = document.getElementById('fallbackResult');
+            
+            try {
+                resultDiv.innerHTML = '<div>Testing fallback system...</div>';
+                
+                const fallbackService = new AIService(null);
+                const pattern = fallbackService.getFallbackPattern('create melody like Ben Bohmer');
+                
+                resultDiv.innerHTML = '<div class="success">✅ Fallback pattern generated: <pre>' + pattern + '</pre></div>';
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="error">❌ Fallback test failed: ' + error.message + '</div>';
+            }
+        };
+
+        window.testExample = async function(prompt) {
+            document.getElementById('prompt').value = prompt;
+            await testPatternGeneration();
+        };
+    </script>
+</body>
+</html> 

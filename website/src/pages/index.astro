@@ -1,15 +1,17 @@
 ---
 import HeadCommon from '../components/HeadCommon.astro';
+import Footer from '../components/Footer/Footer.astro';
 import { Repl } from '../repl/Repl';
 ---
 
 <html lang="en" class="m-0 dark">
   <head>
     <HeadCommon />
-    <title>Strudel REPL</title>
+    <title>Bassline REPL</title>
   </head>
   <body class="h-app-height bg-background m-0">
     <Repl client:only="react" />
-    <a rel="me" href="https://social.toplap.org/@strudel" target="_blank" class="hidden">mastodon</a>
+    <a rel="me" href="https://social.toplap.org/@bassline" target="_blank" class="hidden">mastodon</a>
+    <Footer />
   </body>
 </html>

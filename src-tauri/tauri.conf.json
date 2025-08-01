@@ -8,7 +8,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "Strudel",
+    "productName": "Bassline",
     "version": "0.1.0"
   },
   "tauri": {
@@ -40,7 +40,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.strudel.dev",
+      "identifier": "com.bassline.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -69,7 +69,7 @@
         "fullscreen": false,
         "height": 1200,
         "resizable": true,
-        "title": "Strudel REPL",
+        "title": "Bassline REPL",
         "width": 1800
       }
     ]

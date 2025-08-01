@@ -3,6 +3,7 @@ import HeadCommon from '../components/HeadCommon.astro';
 import Header from '../components/Header/Header.astro';
 import LeftSidebar from '../components/LeftSidebar/LeftSidebar.astro';
 import PageContent from '../components/PageContent/PageContent.astro';
+import Footer from '../components/Footer/Footer.astro';
 import { getCollection } from 'astro:content';
 import { compareDesc } from 'date-fns';
 import { Oven as CommunityOven } from '../components/Oven/Oven.jsx';
@@ -16,7 +17,7 @@ const posts = (await getCollection('blog')).sort((a, b) => compareDesc(a.data.da
 <html dir={'ltr'} lang={'en'} class="initial dark">
   <head>
     <HeadCommon />
-    <title>🌀 Strudel Community Bakery</title>
+    <title>🌀 Bassline Community Bakery</title>
   </head>
 
   <body class="h-app-height text-gray-50 bg-background">
@@ -32,7 +33,7 @@ const posts = (await getCollection('blog')).sort((a, b) => compareDesc(a.data.da
           <PageContent>
             <h1>Community Bakery</h1>
             <p>
-              This page contains all the strudel patterns baked by the community. Add your own by clicking the "Share"
+              This page contains all the bassline patterns baked by the community. Add your own by clicking the "Share"
               button in the REPL. Have fun, and please share some of what you create with the community.
             </p>
             <CommunityOven client:only />
@@ -56,5 +57,6 @@ const posts = (await getCollection('blog')).sort((a, b) => compareDesc(a.data.da
         </div>
       </main>
     </div>
+    <Footer />
   </body>
 </html>

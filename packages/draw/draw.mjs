@@ -202,7 +202,7 @@ export function getComputedPropertyValue(name) {
 }
 
 let theme = {
-  background: '#222',
+  background: '#323039',
   foreground: '#75baff',
   caret: '#ffcc00',
   selection: 'rgba(128, 203, 196, 0.5)',

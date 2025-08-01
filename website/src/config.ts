@@ -1,13 +1,13 @@
 export const SITE = {
-  title: 'Strudel',
-  description: 'Strudel is a music live coding editor that brings TidalCycles to the browser.',
+  title: 'Bassline',
+  description: 'Bassline is a music live coding editor that brings TidalCycles to the browser.',
   defaultLanguage: 'en',
 };
 
 export const OPEN_GRAPH = {
   image: {
-    src: 'https://strudel.cc/icon.png',
-    alt: 'Strudel Logo',
+    src: 'https://bassline.cc/icon.png',
+    alt: 'Bassline Logo',
   },
 };
 
@@ -28,13 +28,13 @@ export const KNOWN_LANGUAGES = {
 } as const;
 export const KNOWN_LANGUAGE_CODES = Object.values(KNOWN_LANGUAGES);
 
-export const GITHUB_EDIT_URL = `https://codeberg.org/uzu/strudel/src/branch/main/website`;
+export const GITHUB_EDIT_URL = `https://codeberg.org/uzu/bassline/src/branch/main/website`;
 
 export const COMMUNITY_INVITE_URL = `https://discord.com/invite/HGEdXmRkzT`;
 
 // See "Algolia" section of the README for more information.
 export const ALGOLIA = {
-  indexName: 'strudel-tidalcycles',
+  indexName: 'bassline-tidalcycles',
   appId: 'SAZ71S8CLS',
   apiKey: 'd5044f9d21b80e7721e5b0067a8730b1',
 };
@@ -55,7 +55,7 @@ export const SIDEBAR: Sidebar = {
   },
   en: {
     Presentation: [
-      { text: 'What is Strudel?', link: 'workshop/getting-started' },
+      { text: 'What is Bassline?', link: 'workshop/getting-started' },
       { text: 'Showcase', link: 'intro/showcase' },
       { text: 'Blog', link: 'blog' },
       /* { text: 'Community Bakery', link: 'bakery' }, */
@@ -105,10 +105,10 @@ export const SIDEBAR: Sidebar = {
       { text: 'Cycles', link: 'understand/cycles' },
       { text: 'Voicings', link: 'understand/voicings' },
       { text: 'Pattern Alignment', link: 'technical-manual/alignment' },
-      { text: 'Strudel vs Tidal', link: 'learn/strudel-vs-tidal' },
+      { text: 'Bassline vs Tidal', link: 'learn/strudel-vs-tidal' },
     ],
     Development: [
-      { text: 'Strudel in your Project', link: 'technical-manual/project-start' },
+      { text: 'Bassline in your Project', link: 'technical-manual/project-start' },
       { text: 'Packages', link: 'technical-manual/packages' },
       { text: 'REPL', link: 'technical-manual/repl' },
       { text: 'Sounds', link: 'technical-manual/sounds' },

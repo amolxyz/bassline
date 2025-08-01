@@ -5,6 +5,7 @@ import { FilesTab } from './FilesTab';
 import { Reference } from './Reference';
 import { SettingsTab } from './SettingsTab';
 import { SoundsTab } from './SoundsTab';
+import { ChatTab } from './ChatTab';
 import { useLogger } from '../useLogger';
 import { WelcomeTab } from './WelcomeTab';
 import { PatternsTab } from './PatternsTab';
@@ -79,6 +80,7 @@ const tabNames = {
   welcome: 'intro',
   patterns: 'patterns',
   sounds: 'sounds',
+  chat: 'chat',
   reference: 'reference',
   console: 'console',
   settings: 'settings',
@@ -123,7 +125,9 @@ function PanelContent({ context, tab }) {
     case tabNames.console:
       return <ConsoleTab />;
     case tabNames.sounds:
-      return <SoundsTab />;
+      return <SoundsTab context={context} />;
+    case tabNames.chat:
+      return <ChatTab context={context} />;
     case tabNames.reference:
       return <Reference />;
     case tabNames.settings:
@@ -141,8 +145,10 @@ function PanelTab({ label, isSelected, onClick }) {
       <button
         onClick={onClick}
         className={cx(
-          'h-8 px-2 text-foreground cursor-pointer hover:opacity-50 flex items-center space-x-1 border-b',
-          isSelected ? 'border-foreground' : 'border-transparent',
+          'h-8 px-3 text-sm m-1 text-foreground cursor-pointer flex items-center space-x-1 rounded-lg transition-colors',
+          isSelected 
+            ? 'bg-[#787c99] text-white' 
+            : 'text-white hover:bg-[#787c99]',
         )}
       >
         {label}

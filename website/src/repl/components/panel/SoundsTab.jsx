@@ -7,13 +7,16 @@ import { ButtonGroup } from './Forms.jsx';
 import ImportSoundsButton from './ImportSoundsButton.jsx';
 import { Textbox } from '../textbox/Textbox.jsx';
 
+import cx from '@src/cx.mjs';
+
 const getSamples = (samples) =>
   Array.isArray(samples) ? samples.length : typeof samples === 'object' ? Object.values(samples).length : 1;
 
-export function SoundsTab() {
+export function SoundsTab({ context }) {
   const sounds = useStore(soundMap);
   const { soundsFilter } = useSettings();
   const [search, setSearch] = useState('');
+
   const { BASE_URL } = import.meta.env;
   const baseNoTrailing = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
 
@@ -56,6 +59,9 @@ export function SoundsTab() {
       ref?.stop(getAudioContext().currentTime + 0.01);
     });
   });
+
+
+
   return (
     <div id="sounds-tab" className="px-4 flex flex-col w-full h-full text-foreground">
       <Textbox placeholder="Search" value={search} onChange={(v) => setSearch(v)} />
@@ -77,32 +83,33 @@ export function SoundsTab() {
       <div className="min-h-0 max-h-full grow overflow-auto  text-sm break-normal pb-2">
         {soundEntries.map(([name, { data, onTrigger }]) => {
           return (
-            <span
-              key={name}
-              className="cursor-pointer hover:opacity-50"
-              onMouseDown={async () => {
-                const ctx = getAudioContext();
-                const params = {
-                  note: ['synth', 'soundfont'].includes(data.type) ? 'a3' : undefined,
-                  s: name,
-                  clip: 1,
-                  release: 0.5,
-                  sustain: 1,
-                  duration: 0.5,
-                };
-                const time = ctx.currentTime + 0.05;
-                const onended = () => trigRef.current?.node?.disconnect();
-                trigRef.current = Promise.resolve(onTrigger(time, params, onended));
-                trigRef.current.then((ref) => {
-                  connectToDestination(ref?.node);
-                });
-              }}
-            >
-              {' '}
-              {name}
-              {data?.type === 'sample' ? `(${getSamples(data.samples)})` : ''}
-              {data?.type === 'soundfont' ? `(${data.fonts.length})` : ''}
-            </span>
+            <div key={name} className="flex items-center gap-2 mb-1">
+              <span
+                className="cursor-pointer hover:opacity-50 flex-1"
+                onMouseDown={async () => {
+                  const ctx = getAudioContext();
+                  const params = {
+                    note: ['synth', 'soundfont'].includes(data.type) ? 'a3' : undefined,
+                    s: name,
+                    clip: 1,
+                    release: 0.5,
+                    sustain: 1,
+                    duration: 0.5,
+                  };
+                  const time = ctx.currentTime + 0.05;
+                  const onended = () => trigRef.current?.node?.disconnect();
+                  trigRef.current = Promise.resolve(onTrigger(time, params, onended));
+                  trigRef.current.then((ref) => {
+                    connectToDestination(ref?.node);
+                  });
+                }}
+              >
+                {name}
+                {data?.type === 'sample' ? `(${getSamples(data.samples)})` : ''}
+                {data?.type === 'soundfont' ? `(${data.fonts.length})` : ''}
+              </span>
+
+            </div>
           );
         })}
         {!soundEntries.length && soundsFilter === 'importSounds' ? (
@@ -113,7 +120,7 @@ export function SoundsTab() {
               <a href={`${baseNoTrailing}/learn/samples/#from-disk-via-import-sounds-folder`} target="_blank">
                 within a folder or subfolder
               </a>
-              . The best way to do this is to upload a “samples” folder containing subfolders of individual sounds or
+              . The best way to do this is to upload a "samples" folder containing subfolders of individual sounds or
               soundbanks (see diagram below).{' '}
             </p>
             <pre className="bg-background" key={'sample-diagram'}>
@@ -128,8 +135,8 @@ export function SoundsTab() {
       └─ smashmiddle.wav`}
             </pre>
             <p>
-              The name of a subfolder corresponds to the sound name under the “user” tab. Multiple samples within a
-              subfolder are all labelled with the same name, but can be accessed using “.n( )” - remember sounds are
+              The name of a subfolder corresponds to the sound name under the "user" tab. Multiple samples within a
+              subfolder are all labelled with the same name, but can be accessed using ".n( )" - remember sounds are
               zero-indexed and in alphabetical order!
             </p>
             <p>
