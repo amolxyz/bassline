@@ -3,6 +3,7 @@ import { HorizontalPanel, VerticalPanel } from '@src/repl/components/panel/Panel
 import { Code } from '@src/repl/components/Code';
 import UserFacingErrorMessage from '@src/repl/components/UserFacingErrorMessage';
 import { Header } from './Header';
+import { ReplFooter } from './ReplFooter';
 import { useSettings } from '@src/settings.mjs';
 
 // type Props = {
@@ -25,6 +26,7 @@ export default function ReplEditor(Props) {
       </div>
       <UserFacingErrorMessage error={error} />
       {!isZen && panelPosition === 'bottom' && <HorizontalPanel context={context} />}
+      <ReplFooter context={context} />
     </div>
   );
 }

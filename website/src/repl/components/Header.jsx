@@ -35,8 +35,9 @@ export function Header({ context, embedded = false }) {
           )}
         >
           {!isZen && (
-            <div className="space-x-2 ml-2">
-              <span className="text-[1.1rem] font-extrabold text-blue-500 italic tracking-tight" style={{ fontFamily: 'Quando, serif' }}>bassline</span>
+            <div className="space-x-2 ml-2 flex items-center">
+              <img src="/logo.svg" alt="Piano Keys Logo" className="w-5 h-5 flex-shrink-0" />
+              <span className="text-[1.1rem] font-extrabold tracking-tight flex items-center" style={{ fontFamily: 'Quando, serif', color: '#F5F5F5' }}>bassline</span>
               {!isEmbedded && isButtonRowHidden && (
                 <a href={`${baseNoTrailing}/learn`} className="text-sm opacity-25 font-medium">
                   DOCS
@@ -46,89 +47,22 @@ export function Header({ context, embedded = false }) {
           )}
         </h1>
       </div>
-      {!isZen && !isButtonRowHidden && (
-        <div className="flex max-w-full overflow-auto text-foreground px-1 md:px-2">
+      
+      <div className="flex items-center space-x-2 px-4">
+        {!isEmbedded && (
           <button
-            onClick={handleTogglePlay}
-            title={started ? 'stop' : 'play'}
+            title="share"
             className={cx(
-              !isEmbedded ? 'p-2' : 'px-2',
-              'hover:opacity-50',
-              !started && !isCSSAnimationDisabled && 'animate-pulse',
+              'cursor-pointer hover:opacity-50 flex items-center space-x-1 p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors',
             )}
+            onClick={handleShare}
           >
-            {!pending ? (
-              <span className={cx('flex items-center space-x-2')}>
-                {started ? <StopCircleIcon className="w-6 h-6" /> : <PlayCircleIcon className="w-6 h-6" />}
-                {!isEmbedded && <span>{started ? 'stop' : 'play'}</span>}
-              </span>
-            ) : (
-              <>loading...</>
-            )}
+            <svg className="w-5 h-5" fill="none" stroke="#F5F5F5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+            </svg>
           </button>
-          <button
-            onClick={handleEvaluate}
-            title="update"
-            className={cx(
-              'flex items-center space-x-1',
-              !isEmbedded ? 'p-2' : 'px-2',
-              !isDirty || !activeCode ? 'opacity-50' : 'hover:opacity-50',
-            )}
-          >
-            {!isEmbedded && <span>update</span>}
-          </button>
-          {/* !isEmbedded && (
-            <button
-              title="shuffle"
-              className="hover:opacity-50 p-2 flex items-center space-x-1"
-              onClick={handleShuffle}
-            >
-              <span> shuffle</span>
-            </button>
-          ) */}
-          {!isEmbedded && (
-            <button
-              title="share"
-              className={cx(
-                'cursor-pointer hover:opacity-50 flex items-center space-x-1',
-                !isEmbedded ? 'p-2' : 'px-2',
-              )}
-              onClick={handleShare}
-            >
-              <span>share</span>
-            </button>
-          )}
-          {!isEmbedded && (
-            <a
-              title="learn"
-              href={`${baseNoTrailing}/workshop/getting-started/`}
-              className={cx('hover:opacity-50 flex items-center space-x-1', !isEmbedded ? 'p-2' : 'px-2')}
-            >
-              <span>learn</span>
-            </a>
-          )}
-          {/* {isEmbedded && (
-            <button className={cx('hover:opacity-50 px-2')}>
-              <a href={window.location.href} target="_blank" rel="noopener noreferrer" title="Open in REPL">
-                🚀
-              </a>
-            </button>
-          )}
-          {isEmbedded && (
-            <button className={cx('hover:opacity-50 px-2')}>
-              <a
-                onClick={() => {
-                  window.location.href = initialUrl;
-                  window.location.reload();
-                }}
-                title="Reset"
-              >
-                💔
-              </a>
-            </button>
-          )} */}
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }

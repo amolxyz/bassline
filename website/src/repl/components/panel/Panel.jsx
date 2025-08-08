@@ -77,8 +77,7 @@ export function VerticalPanel({ context }) {
 }
 
 const tabNames = {
-  welcome: 'intro',
-  patterns: 'patterns',
+  tracks: 'patterns',
   sounds: 'sounds',
   chat: 'chat',
   reference: 'reference',
@@ -135,21 +134,23 @@ function PanelContent({ context, tab }) {
     case tabNames.files:
       return <FilesTab />;
     default:
-      return <WelcomeTab context={context} />;
+      return <PatternsTab context={context} />;
   }
 }
 
-function PanelTab({ label, isSelected, onClick }) {
+function PanelTab({ label, isSelected, onClick, className = '' }) {
   return (
     <>
       <button
         onClick={onClick}
         className={cx(
-          'h-8 px-3 text-sm m-1 text-foreground cursor-pointer flex items-center space-x-1 rounded-lg transition-colors',
+          'h-8 px-4 text-sm mr-2 cursor-pointer flex items-center space-x-1 rounded-lg transition-colors font-bold',
           isSelected 
-            ? 'bg-[#787c99] text-white' 
-            : 'text-white hover:bg-[#787c99]',
+            ? 'bg-blue-500 text-white' 
+            : 'bg-gray-700 text-white hover:bg-gray-600',
+          className
         )}
+        style={{ fontFamily: 'Geist, sans-serif' }}
       >
         {label}
       </button>
@@ -159,9 +160,17 @@ function PanelTab({ label, isSelected, onClick }) {
 function Tabs({ setTab, tab, className }) {
   return (
     <div className={cx('flex select-none max-w-full overflow-auto pb-2', className)}>
-      {Object.keys(tabNames).map((key) => {
+      {Object.keys(tabNames).map((key, index) => {
         const val = tabNames[key];
-        return <PanelTab key={key} isSelected={tab === val} label={key} onClick={() => setTab(val)} />;
+        return (
+          <PanelTab 
+            key={key} 
+            isSelected={tab === val} 
+            label={key.charAt(0).toUpperCase() + key.slice(1)} 
+            onClick={() => setTab(val)}
+            className={index === 0 ? 'ml-4' : ''}
+          />
+        );
       })}
     </div>
   );

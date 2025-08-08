@@ -64,7 +64,7 @@ export function SoundsTab({ context }) {
 
   return (
     <div id="sounds-tab" className="px-4 flex flex-col w-full h-full text-foreground">
-      <Textbox placeholder="Search" value={search} onChange={(v) => setSearch(v)} />
+      <Textbox placeholder="Search" value={search} onChange={(v) => setSearch(v)} className="my-4" />
 
       <div className="pb-2 flex shrink-0 flex-wrap">
         <ButtonGroup
