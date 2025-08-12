@@ -2,73 +2,103 @@ import { useState } from 'react';
 
 const EXAMPLE_PROMPTS = [
   {
-    category: "Live Coding Scenarios",
+    category: "Code Analysis & Understanding",
     prompts: [
-      "create a basic beat to start with",
-      "add a melodic bassline to my drum pattern",
-      "make the rhythm more complex with polyrhythms",
-      "add atmospheric pads for texture",
-      "create a build-up section with increasing intensity"
+      "What does my current code do musically?",
+      "Analyze the structure of my pattern",
+      "How can I improve my current code?",
+      "What musical elements are present in my code?",
+      "Suggest optimizations for my pattern"
     ]
   },
   {
-    category: "Pattern Transformations",
+    category: "Pattern Enhancement & Variation",
     prompts: [
-      "apply Euclidean rhythm to my drum pattern",
-      "create a pattern that changes every 4 cycles",
-      "add randomization to my melody",
-      "make the pattern faster and more energetic",
-      "create a pattern with offset layers"
+      "Create a variation of my current pattern",
+      "Add complexity to my existing rhythm",
+      "Enhance my melody with additional notes",
+      "Create a complementary pattern to layer",
+      "Make my pattern more dynamic and interesting"
     ]
   },
   {
-    category: "Musical Styles",
+    category: "Musical Development",
     prompts: [
-      "create a techno rhythm with industrial sounds",
-      "make a jazz piano progression",
-      "generate ambient drone with long notes",
-      "create a hip-hop beat with sampled drums",
-      "make a classical string quartet pattern"
+      "Suggest a bridge section for my song",
+      "Create a build-up that leads to my current pattern",
+      "Add a breakdown section with different energy",
+      "Create a pattern that transitions smoothly from my current one",
+      "Suggest a complete song structure based on my current pattern"
+    ]
+  },
+  {
+    category: "Sound Design & Effects",
+    prompts: [
+      "Add atmospheric effects to my current pattern",
+      "Create a pad that complements my rhythm",
+      "Suggest effects that would enhance my sound",
+      "Create a bassline that works with my current pattern",
+      "Add texture and depth to my existing pattern"
+    ]
+  },
+  {
+    category: "Genre & Style Adaptation",
+    prompts: [
+      "Transform my pattern into a different genre",
+      "Make my pattern more [genre]-like",
+      "Add genre-specific elements to my current code",
+      "Create a pattern that bridges two different styles",
+      "Suggest genre-appropriate variations of my pattern"
     ]
   },
   {
     category: "Advanced Techniques",
     prompts: [
-      "create a polymetric pattern with different time signatures",
-      "add voice leading to my chord progression",
-      "create a pattern with conditional transformations",
-      "make a generative melody that evolves over time",
-      "create a pattern with multiple simultaneous transformations"
+      "Create a polymetric pattern that works with my current one",
+      "Add algorithmic variations to my pattern",
+      "Create a generative element that evolves over time",
+      "Implement voice leading in my chord progression",
+      "Create a pattern with conditional transformations based on my current code"
     ]
   },
   {
-    category: "Sound Design",
+    category: "Live Coding Workflow",
     prompts: [
-      "create a bass sound with filter modulation",
-      "add delay and reverb effects to my pattern",
-      "create a pad with slow filter sweeps",
-      "make a percussive sound with envelope shaping",
-      "create a sound with frequency modulation"
+      "How can I make my pattern more live-coding friendly?",
+      "Suggest ways to modify my pattern in real-time",
+      "Create variations that are easy to switch between",
+      "How can I build complexity gradually from my current pattern?",
+      "Suggest a live coding performance structure using my current pattern"
     ]
   },
   {
-    category: "Interactive Elements",
+    category: "Musical Theory & Education",
     prompts: [
-      "create a pattern that responds to tempo changes",
-      "make a pattern that varies based on cycle position",
-      "create a pattern with randomized parameters",
-      "make a pattern that builds complexity over time",
-      "create a pattern with multiple layers that interact"
+      "Explain the musical theory behind my current pattern",
+      "What scales or modes would work well with my melody?",
+      "How can I add harmonic complexity to my pattern?",
+      "Suggest chord progressions that complement my current pattern",
+      "What musical concepts am I using in my code?"
     ]
   },
   {
-    category: "Context-Aware",
+    category: "Problem Solving",
     prompts: [
-      "create a pattern that fits my song context",
-      "add an instrument from my preferences",
-      "make a pattern in my chosen genre",
-      "create something that matches my mood",
-      "add effects that complement my style"
+      "My pattern sounds muddy, how can I fix it?",
+      "How can I make my pattern more rhythmic?",
+      "My melody is too repetitive, suggest variations",
+      "How can I balance the different elements in my pattern?",
+      "What's causing the timing issues in my pattern?"
+    ]
+  },
+  {
+    category: "Creative Inspiration",
+    prompts: [
+      "Give me 3 different directions to take my current pattern",
+      "What would happen if I combined my pattern with [style]?",
+      "Suggest unexpected ways to transform my pattern",
+      "How can I make my pattern more experimental?",
+      "What musical ideas are hidden in my current code?"
     ]
   }
 ];
@@ -78,7 +108,7 @@ export function AIExamples({ onSelectPrompt }) {
 
   return (
     <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-      <h3 className="text-lg font-semibold mb-3">Example Prompts</h3>
+      <h3 className="text-lg font-semibold mb-3">AI Assistant Examples</h3>
       
       {/* Category Tabs */}
       <div className="flex space-x-2 overflow-x-auto pb-2">
@@ -111,15 +141,25 @@ export function AIExamples({ onSelectPrompt }) {
       </div>
 
       <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-        <p>💡 <strong>Live Coding Tips:</strong></p>
+        <p>🚀 <strong>AI Assistant Capabilities:</strong></p>
         <ul className="list-disc list-inside space-y-1 ml-2">
-          <li>Define your song context above for better AI recommendations</li>
-          <li>Be specific about the style, instrument, or transformation you want</li>
-          <li>Ask for modifications to existing patterns in your conversation</li>
-          <li>Request patterns that can be easily modified in real-time</li>
-          <li>Use terms like "add", "modify", "transform" for pattern changes</li>
+          <li><strong>Code Analysis:</strong> Understand and explain your current patterns</li>
+          <li><strong>Pattern Enhancement:</strong> Improve and vary existing code</li>
+          <li><strong>Musical Guidance:</strong> Get theory explanations and suggestions</li>
+          <li><strong>Creative Inspiration:</strong> Discover new directions for your music</li>
+          <li><strong>Problem Solving:</strong> Debug and optimize your patterns</li>
         </ul>
-        <p className="mt-2">🎵 The AI will generate Strudel code patterns that you can paste into the editor and modify live.</p>
+        
+        <p className="mt-2">💡 <strong>Pro Tips:</strong></p>
+        <ul className="list-disc list-inside space-y-1 ml-2">
+          <li>Set your song context above for personalized recommendations</li>
+          <li>Ask follow-up questions to refine and develop ideas</li>
+          <li>Use the "Analyze" button to get insights about your current code</li>
+          <li>Try the Quick Actions for instant pattern analysis and enhancement</li>
+          <li>The AI remembers your conversation context for better suggestions</li>
+        </ul>
+        
+        <p className="mt-2">🎵 The AI will provide intelligent responses, code patterns, explanations, and creative suggestions to help you develop your music.</p>
       </div>
     </div>
   );

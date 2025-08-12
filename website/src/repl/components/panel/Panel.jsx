@@ -23,17 +23,13 @@ export function HorizontalPanel({ context }) {
       className={cx(isPanelOpen ? `min-h-[360px] max-h-[360px]` : 'min-h-12 max-h-12', 'overflow-hidden flex flex-col')}
     >
       {isPanelOpen && (
-        <div className="flex h-full overflow-auto pr-10 ">
+        <div className="flex h-full overflow-auto pr-16">
           <PanelContent context={context} tab={tab} />
         </div>
       )}
 
-      <div className="absolute right-4 pt-4">
+      <div className="absolute right-4 top-2">
         <PanelActionButton settings={settings} />
-      </div>
-
-      <div className="flex  justify-between min-h-12 max-h-12 grid-cols-2 items-center">
-        <Tabs setTab={setTab} tab={tab} />
       </div>
     </PanelNav>
   );
@@ -50,8 +46,7 @@ export function VerticalPanel({ context }) {
     >
       {isPanelOpen ? (
         <div className={cx('flex flex-col h-full')}>
-          <div className="flex justify-between w-full ">
-            <Tabs setTab={setTab} tab={tab} />
+          <div className="flex justify-end w-full ">
             <PanelActionButton settings={settings} />
           </div>
 
@@ -144,7 +139,7 @@ function PanelTab({ label, isSelected, onClick, className = '' }) {
       <button
         onClick={onClick}
         className={cx(
-          'h-8 px-4 text-sm mr-2 cursor-pointer flex items-center space-x-1 rounded-lg transition-colors font-bold',
+          'h-8 px-4 text-sm mr-2 cursor-pointer flex items-center space-x-1 rounded-lg transition-colors font-medium',
           isSelected 
             ? 'bg-blue-500 text-white' 
             : 'bg-gray-700 text-white hover:bg-gray-600',

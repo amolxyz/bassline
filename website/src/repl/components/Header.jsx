@@ -1,7 +1,7 @@
 import PlayCircleIcon from '@heroicons/react/20/solid/PlayCircleIcon';
 import StopCircleIcon from '@heroicons/react/20/solid/StopCircleIcon';
 import cx from '@src/cx.mjs';
-import { useSettings, setIsZen } from '../../settings.mjs';
+import { useSettings, setIsZen, setActiveFooter as setTab, setIsPanelOpened } from '../../settings.mjs';
 import '../Repl.css';
 
 const { BASE_URL } = import.meta.env;
@@ -11,7 +11,7 @@ export function Header({ context, embedded = false }) {
   const { started, pending, isDirty, activeCode, handleTogglePlay, handleEvaluate, handleShuffle, handleShare } =
     context;
   const isEmbedded = typeof window !== 'undefined' && (embedded || window.location !== window.parent.location);
-  const { isZen, isButtonRowHidden, isCSSAnimationDisabled, fontFamily } = useSettings();
+  const { isZen, isButtonRowHidden, isCSSAnimationDisabled, fontFamily, activeFooter } = useSettings();
 
   return (
     <header
@@ -49,6 +49,33 @@ export function Header({ context, embedded = false }) {
       </div>
       
       <div className="flex items-center space-x-2 px-4">
+        {/* Main navigation moved to header */}
+        {!isEmbedded && (
+          <div className="hidden md:flex items-center space-x-2 mr-2">
+            {[
+              { label: 'Tracks', tab: 'patterns' },
+              { label: 'Sounds', tab: 'sounds' },
+              { label: 'Chat', tab: 'chat' },
+              { label: 'Reference', tab: 'reference' },
+              { label: 'Console', tab: 'console' },
+              { label: 'Settings', tab: 'settings' },
+            ].map(({ label, tab }) => (
+              <button
+                key={tab}
+                onClick={() => { setTab(tab); setIsPanelOpened(true); }}
+                className={
+                  (activeFooter === tab
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-700 text-white hover:bg-gray-600') +
+                  ' h-8 px-4 text-sm cursor-pointer flex items-center rounded-full font-bold'
+                }
+                style={{ fontFamily: 'Geist, sans-serif' }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
         {!isEmbedded && (
           <button
             title="share"

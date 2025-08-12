@@ -1,16 +1,23 @@
-// AI Service for Strudel Music Generation (OpenAI GPT-4o)
-// This service handles communication with OpenAI API to generate music patterns
+// AI Service for Strudel Music Generation (OpenAI GPT-5)
+// This service handles communication with OpenAI API to provide intelligent music assistance
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-const OPENAI_MODEL = 'gpt-4o';
+const OPENAI_MODEL = 'gpt-5-mini'; // Correct model name for GPT-5
+const FALLBACK_MODEL = 'gpt-4o'; // Fallback model if GPT-5 has issues
 
-// System prompt for music generation with comprehensive Strudel context
-const SYSTEM_PROMPT = `You are an expert music producer and live coding specialist who creates patterns for Strudel, a live coding music platform.
+// Enhanced system prompt for comprehensive music assistance
+const SYSTEM_PROMPT = `You are an expert music producer, live coding specialist, and creative AI assistant for Strudel, a live coding music platform. You excel at understanding musical context, providing intelligent suggestions, and helping users create, modify, and understand their music.
 
-⚠️ CRITICAL: NEVER include "strudel" or any prefix in your responses. Return ONLY the pure code pattern.
+## Your Capabilities
+- **Pattern Generation**: Create musical patterns that fit the current song context
+- **Code Analysis**: Understand and analyze existing code to provide context-aware suggestions
+- **Pattern Modification**: Suggest tweaks and improvements to existing patterns
+- **Musical Education**: Explain concepts, answer questions, and provide guidance
+- **Creative Inspiration**: Offer new ideas and directions for musical development
+- **Problem Solving**: Help debug issues and optimize code performance
 
 ## About Strudel
-Strudel is an official port of the Tidal Cycles pattern language to JavaScript, running entirely in the web browser. It's designed for live coding algorithmic patterns and making music with code in real time. The platform provides a REPL (Read-Eval-Print Loop) environment where users can write and execute code while music plays.
+Strudel is an official port of the Tidal Cycles pattern language to JavaScript, running entirely in the web browser. It's designed for live coding algorithmic patterns and making music with code in real time.
 
 ## Core Concepts
 - **Cycles**: The fundamental time unit in Strudel. Default is 0.5 cycles per second (CPS), equivalent to 120 BPM
@@ -34,10 +41,11 @@ Strudel is an official port of the Tidal Cycles pattern language to JavaScript, 
 - \`.cutoff(400)\` - Controls filter cutoff
 - \`.resonance(0.3)\` - Controls filter resonance
 
-### Available Sounds
+### Available Sounds and Libraries
 **Synthesizers**: piano, guitar, electric, acoustic, violin, flute, sine, square, sawtooth, triangle
 **Drum Samples**: bd (bass drum), hh (hi-hat), sd (snare drum), cp (clap), rim, lt (low tom), mt (mid tom), ht (high tom)
-**Other**: wind, feel, and many more
+**DSP Effects**: reverb, delay, phaser, lpf, hpf, feedbackdelay, fft processing
+**Advanced**: superdough synthesis, motion sensors, MIDI, OSC, gamepad input, serial communication
 
 ### Pattern Transformations
 - \`.fast(2)\` - Speeds up pattern by factor of 2
@@ -62,7 +70,7 @@ Strudel uses Tidal's mini-notation for concise rhythmic patterns:
 - \`.legato(0.25)\` - Extends note durations
 - \`.phaser(4)\` - Adds phaser effect
 - \`.lpf(500)\` - Low-pass filter
-- \`.lpf(1000)\` - High-pass filter
+- \`.hpf(1000)\` - High-pass filter
 
 ### Tonal Functions
 - \`.scale('D minor')\` - Sets musical scale
@@ -73,59 +81,64 @@ Strudel uses Tidal's mini-notation for concise rhythmic patterns:
 ### Chord Creation
 - \`note("<[c3,eb3,g3] [f3,a3,c4]>")\` - Creates chord patterns using brackets and commas
 - \`note("[c3,e3,g3] [f3,a3,c4]")\` - Alternative chord syntax
-- Use commas within brackets to play notes as chords instead of single notes
-
-### Live Coding Context
-The user is working in a live coding environment where:
-- Code executes immediately as it's typed
-- Patterns can be modified in real-time
-- Visual feedback shows pattern structure
-- Multiple patterns can run simultaneously
-- The environment supports hot-reloading and pattern switching
-
-## Documentation References
-The user has access to comprehensive documentation at https://strudel.cc/ including:
-- Workshop tutorials for beginners
-- Technical manual for advanced concepts
-- Pattern function reference
-- Mini-notation guide
-- Examples and recipes
-- Understanding cycles, alignment, and combination
 
 ## Response Guidelines
-1. Generate ONLY the Strudel code pattern, no explanations unless the user asks for one
-2. Keep patterns concise and musical
-3. Focus on the specific request while maintaining musical coherence
-4. Use appropriate mini-notation for rhythmic patterns
-5. Consider the live coding context - patterns should be immediately playable
-6. Reference the documentation when suggesting advanced features
-7. The user may ask follow-up questions or request modifications - always consider the previous conversation context
-8. When song context is provided, prioritize patterns that align with the defined genre, instruments, mood, tempo, and style preferences
-9. NEVER include prefixes like "strudel:", "code:", "pattern:", or any other labels - return only the pure code
-10. Return clean, executable code that can be directly pasted into the REPL
 
-## CRITICAL OUTPUT FORMAT RULE
-- NEVER start responses with "strudel" or any other prefix
-- NEVER include "strudel:" at the beginning of code
-- Return ONLY the pure code pattern, nothing else
-- Example: Return s("bd hh sd").bank("tr808") NOT strudel s("bd hh sd").bank("tr808")
+### For Pattern Generation Requests
+1. Analyze the current song context and existing code
+2. Generate patterns that complement and enhance the current musical direction
+3. Consider the genre, mood, tempo, and instruments already in use
+4. Provide patterns that can be easily modified and extended
 
-## Examples of Good Responses
-- For "create a house beat": \`s("bd [~ sd] hh*2").bank("tr808").gain(0.8)\`
-- For "melodic piano": \`note("c4 e4 g4").s("piano").room(0.3)\`
-- For "chord progression": \`note("<[c3,e3,g3] [f3,a3,c4] [g3,b3,d4] [c4,e4,g4]>").s("piano").room(0.3)\`
-- For "ambient pad": \`note("<0 4 7>").s("sine").room(0.8).lpf(800).slow(4)\`
-- With context "House, Piano, Energetic, 128 BPM": \`note("c4 e4 g4").s("piano").cpm(128/4).gain(0.7).room(0.2)\`
-- With context "Ambient, Synth, Melancholic, 90 BPM": \`note("<0 4 7>").s("sine").cpm(90/2).room(0.8).lpf(600).slow(2)\`
+### For Code Analysis and Questions
+1. Examine the provided code context carefully
+2. Identify musical elements, patterns, and structure
+3. Provide clear, educational explanations
+4. Suggest improvements or alternatives when appropriate
 
-Remember: Strudel is about algorithmic composition and live coding - focus on patterns that can be easily modified and extended in real-time.
+### For Pattern Modification Requests
+1. Understand the existing pattern's musical function
+2. Suggest specific, actionable changes
+3. Explain the musical reasoning behind suggestions
+4. Provide multiple options when possible
 
-IMPORTANT: Always return ONLY the pure code pattern without any prefixes, labels, or explanatory text. The response should be immediately executable in the Strudel REPL.`;
+### For General Questions
+1. Provide comprehensive, educational answers
+2. Include practical examples and code snippets
+3. Reference relevant Strudel concepts and functions
+4. Encourage experimentation and learning
 
-export function buildOpenAIMessages(output, inputValue, songContext = null) {
+## Response Format
+Your responses should be intelligent, contextual, and helpful. You can:
+
+1. **Generate Code**: Return clean, executable Strudel code
+2. **Explain Concepts**: Provide clear explanations with examples
+3. **Suggest Modifications**: Offer specific improvements to existing code
+4. **Answer Questions**: Give comprehensive answers about music theory, Strudel, or programming
+5. **Provide Context**: Analyze existing code and explain what it does
+6. **Offer Inspiration**: Suggest new directions or creative ideas
+
+## Code Output Rules
+- When generating code, return ONLY the pure code pattern without prefixes
+- When suggesting modifications, clearly indicate what to change
+- Include explanatory comments in code when helpful
+- Ensure all code is immediately executable in the Strudel REPL
+
+## Context Awareness
+Always consider:
+- The current song context (genre, mood, tempo, key, instruments)
+- Existing code patterns and musical elements
+- The user's skill level and goals
+- Musical coherence and flow
+- Live coding best practices
+
+Remember: You are a creative AI music assistant, not just a pattern generator. Help users understand, create, and evolve their music through intelligent guidance and context-aware suggestions.`;
+
+export function buildOpenAIMessages(output, inputValue, songContext = null, currentCode = null) {
   // output: array of {type: 'input'|'output'|'error', content: string}
   // inputValue: current user input
   // songContext: object with song preferences
+  // currentCode: current code in the editor
   // Returns: OpenAI messages array
   
   let systemPrompt = SYSTEM_PROMPT;
@@ -142,7 +155,12 @@ export function buildOpenAIMessages(output, inputValue, songContext = null) {
     if (songContext.additionalNotes) contextParts.push(`Notes: ${songContext.additionalNotes}`);
     
     const contextString = contextParts.join(', ');
-    systemPrompt += `\n\n## Current Song Context\n${contextString}\n\nWhen generating patterns, prioritize and incorporate these preferences to create cohesive musical elements that fit the defined song context.`;
+    systemPrompt += `\n\n## Current Song Context\n${contextString}\n\nWhen generating patterns or making suggestions, prioritize and incorporate these preferences to create cohesive musical elements that fit the defined song context.`;
+  }
+
+  // Add current code context if available
+  if (currentCode && currentCode.trim()) {
+    systemPrompt += `\n\n## Current Code Context\n\`\`\`javascript\n${currentCode}\n\`\`\`\n\nAnalyze this code to understand the current musical direction, patterns, and context. Use this information to provide relevant suggestions, modifications, or complementary patterns.`;
   }
   
   const messages = [
@@ -163,45 +181,113 @@ export class AIService {
     this.apiKey = apiKey;
   }
 
-  async generateMusicPattern(userRequest, chatHistory = [], songContext = null) {
+  async generateMusicPattern(userRequest, chatHistory = [], songContext = null, currentCode = null) {
     if (!this.apiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
-    // If chatHistory is provided, use it as the messages array
-    // Otherwise, fallback to just system + user
-    const messages = chatHistory && chatHistory.length > 0
-      ? chatHistory
-      : buildOpenAIMessages([], userRequest, songContext);
+    // Build comprehensive messages with all available context
+    const messages = buildOpenAIMessages(chatHistory, userRequest, songContext, currentCode);
 
     try {
-      const response = await fetch(OPENAI_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
-        },
-        body: JSON.stringify({
-          model: OPENAI_MODEL,
-          max_tokens: 500,
-          temperature: 0.7,
-          messages
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-        return data.choices[0].message.content.trim();
-      } else {
-        throw new Error('Invalid response format from OpenAI API');
-      }
+      // Try with GPT-5 first
+      const response = await this._makeOpenAIRequest(OPENAI_MODEL, messages);
+      return response;
     } catch (error) {
-      console.error('AI Service Error:', error);
-      throw error;
+      console.warn('GPT-5 request failed, trying fallback model:', error);
+      
+      // If GPT-5 fails, try with fallback model
+      try {
+        const fallbackResponse = await this._makeOpenAIRequest(FALLBACK_MODEL, messages);
+        return fallbackResponse;
+      } catch (fallbackError) {
+        console.error('Both GPT-5 and fallback model failed:', fallbackError);
+        throw fallbackError;
+      }
+    }
+  }
+
+  async _makeOpenAIRequest(model, messages) {
+    const response = await fetch(OPENAI_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.apiKey}`
+      },
+      body: JSON.stringify({
+        model: model,
+        max_tokens: 1000, // Increased for more comprehensive responses
+        temperature: 0.8, // Slightly higher for more creative output
+        messages
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      let errorMessage = `API request failed: ${response.status} ${response.statusText}`;
+      
+      try {
+        const errorData = JSON.parse(errorText);
+        if (errorData.error && errorData.error.message) {
+          errorMessage = errorData.error.message;
+        }
+      } catch (e) {
+        // If we can't parse the error, use the raw text
+        if (errorText) {
+          errorMessage = errorText;
+        }
+      }
+      
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+      return data.choices[0].message.content.trim();
+    } else {
+      throw new Error('Invalid response format from OpenAI API');
+    }
+  }
+
+  // New method for analyzing current code and providing context-aware suggestions
+  async analyzeCodeAndSuggest(currentCode, songContext = null) {
+    if (!this.apiKey) {
+      throw new Error('OpenAI API key not configured');
+    }
+
+    const prompt = `Analyze this Strudel code and provide insights about:
+1. What musical elements and patterns are present
+2. The overall musical direction and style
+3. Potential improvements or variations
+4. Complementary patterns that could enhance the composition
+5. Any issues or optimizations
+
+Code to analyze:
+\`\`\`javascript
+${currentCode}
+\`\`\``;
+
+    try {
+      // Try with GPT-5 first
+      const response = await this._makeOpenAIRequest(OPENAI_MODEL, [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: prompt }
+      ]);
+      return response;
+    } catch (error) {
+      console.warn('GPT-5 analysis failed, trying fallback model:', error);
+      
+      // If GPT-5 fails, try with fallback model
+      try {
+        const fallbackResponse = await this._makeOpenAIRequest(FALLBACK_MODEL, [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: prompt }
+        ]);
+        return fallbackResponse;
+      } catch (fallbackError) {
+        console.error('Both GPT-5 and fallback model failed:', fallbackError);
+        throw fallbackError;
+      }
     }
   }
 }

@@ -14,7 +14,13 @@ export function ReplFooter({ context, embedded = false }) {
   }
 
   return (
-    <footer className="flex-none bg-lineHighlight text-foreground px-4 py-2 flex justify-between items-center">
+    <footer
+      className="flex-none bg-lineHighlight text-foreground px-4 py-2 flex justify-between items-center"
+      style={{
+        fontFamily:
+          'Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"',
+      }}
+    >
       {/* Play/Update buttons on the left */}
       <div className="flex max-w-full overflow-auto text-foreground px-1 md:px-2">
         <button
@@ -27,7 +33,7 @@ export function ReplFooter({ context, embedded = false }) {
           )}
         >
           {!pending ? (
-            <span className={cx('flex items-center space-x-2')}>
+            <span className={cx('flex items-center space-x-2 font-medium')}>
               {started ? <StopCircleIcon className="w-6 h-6" /> : <PlayCircleIcon className="w-6 h-6" />}
               <span>{started ? 'stop' : 'play'}</span>
             </span>
@@ -39,7 +45,7 @@ export function ReplFooter({ context, embedded = false }) {
             onClick={handleEvaluate}
             title="update"
             className={cx(
-              'flex items-center space-x-1',
+              'flex items-center space-x-1 font-medium',
               'p-2',
               !isDirty || !activeCode ? 'opacity-50' : 'hover:opacity-50',
             )}
@@ -51,7 +57,7 @@ export function ReplFooter({ context, embedded = false }) {
             href="https://www.figma.com/design/T1dbKhHTW59S4VzR6Enfkk/bassline?node-id=46-2&t=iUoxe3KwOJ4gBzBH-1"
             target="_blank"
             rel="noopener noreferrer"
-            className={cx('hover:opacity-50 flex items-center space-x-1 p-2')}
+            className={cx('hover:opacity-50 flex items-center space-x-1 p-2 font-medium')}
           >
             <span>design</span>
           </a>
