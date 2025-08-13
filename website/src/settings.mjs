@@ -21,7 +21,7 @@ export const defaultSettings = {
   isSyncEnabled: false,
   isLineWrappingEnabled: false,
   isPatternHighlightingEnabled: true,
-  theme: 'strudelTheme',
+  theme: 'tokyoNight',
   fontFamily: 'monospace',
   fontSize: 18,
   latestCode: '',
