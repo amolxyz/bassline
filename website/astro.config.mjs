@@ -97,7 +97,7 @@ export default defineConfig({
         enabled: false,
       },
       manifest: {
-        includeAssets: ['favicon.ico', 'icons/apple-icon-180.png'],
+        includeAssets: ['logo.svg', 'icons/apple-icon-180.png'],
         name: 'Strudel REPL',
         short_name: 'Strudel',
         description:
