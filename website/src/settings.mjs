@@ -39,6 +39,7 @@ export const defaultSettings = {
   isCSSAnimationDisabled: false,
   maxPolyphony: 128,
   multiChannelOrbits: false,
+  aiChatHistory: '[]',
 };
 
 let search = null;
@@ -83,12 +84,15 @@ export function useSettings() {
     isPanelOpen: parseBoolean(state.isPanelOpen),
     userPatterns: userPatterns,
     multiChannelOrbits: parseBoolean(state.multiChannelOrbits),
+    aiChatHistory: (() => { try { return JSON.parse(state.aiChatHistory || '[]'); } catch { return []; } })(),
   };
 }
 
 export const setActiveFooter = (tab) => settingsMap.setKey('activeFooter', tab);
 export const setPanelPinned = (bool) => settingsMap.setKey('isPanelPinned', bool);
 export const setIsPanelOpened = (bool) => settingsMap.setKey('isPanelOpen', bool);
+
+export const setAiChatHistory = (history) => settingsMap.setKey('aiChatHistory', JSON.stringify(history || []));
 
 export const setIsZen = (active) => settingsMap.setKey('isZen', !!active);
 

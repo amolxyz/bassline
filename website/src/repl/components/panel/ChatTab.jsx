@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useSettings } from '../../../settings.mjs';
+import { useSettings, setAiChatHistory } from '../../../settings.mjs';
 import cx from '@src/cx.mjs';
 import { Play, Settings, Copy, Code, Lightbulb, HelpCircle, Music, Zap, SlidersHorizontal, X, ArrowUpCircle } from 'lucide-react';
 import { getAIService, buildOpenAIMessages } from '../../../services/aiService.js';
@@ -37,6 +37,7 @@ export function ChatTab({ context }) {
   const [showPromptOptions, setShowPromptOptions] = useState(false);
 
   const outputEndRef = useRef(null);
+  const textareaRef = useRef(null);
   const { fontFamily } = useSettings();
 
   const scrollToBottom = () => {
@@ -47,15 +48,31 @@ export function ChatTab({ context }) {
     scrollToBottom();
   }, [output]);
 
+  // Auto-resize textarea and keep cursor starting at the top
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [inputValue]);
+
   useEffect(() => {
     const apiKey = localStorage.getItem('openai_api_key');
     setAiEnabled(!!apiKey);
+    // restore persisted chat
+    try {
+      const persisted = JSON.parse(localStorage.getItem('ai_chat_history') || '[]');
+      if (Array.isArray(persisted) && persisted.length) setOutput(persisted);
+    } catch {}
   }, []);
 
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === 'openai_api_key') {
         setAiEnabled(!!e.newValue);
+      }
+      if (e.key === 'ai_chat_history' && e.newValue) {
+        try { setOutput(JSON.parse(e.newValue)); } catch {}
       }
     };
     window.addEventListener('storage', handleStorageChange);
@@ -97,7 +114,14 @@ export function ChatTab({ context }) {
       timestamp: new Date()
     };
 
-    setOutput((prev) => [...prev, userInput]);
+    setOutput((prev) => {
+      const next = [...prev, userInput];
+      try {
+        localStorage.setItem('ai_chat_history', JSON.stringify(next));
+        setAiChatHistory(next);
+      } catch {}
+      return next;
+    });
     setInputValue('');
     setIsLoading(true);
 
@@ -116,7 +140,14 @@ export function ChatTab({ context }) {
         content: response,
         timestamp: new Date()
       };
-      setOutput((prev) => [...prev, resultOutput]);
+      setOutput((prev) => {
+        const next = [...prev, resultOutput];
+        try {
+          localStorage.setItem('ai_chat_history', JSON.stringify(next));
+          setAiChatHistory(next);
+        } catch {}
+        return next;
+      });
 
       if (autoAddToEditor) {
         insertCodeIntoEditor(response, resultOutput.id);
@@ -129,7 +160,14 @@ export function ChatTab({ context }) {
         content: 'Error: Failed to generate response. Please try again.',
         timestamp: new Date()
       };
-      setOutput((prev) => [...prev, errorOutput]);
+      setOutput((prev) => {
+        const next = [...prev, errorOutput];
+        try {
+          localStorage.setItem('ai_chat_history', JSON.stringify(next));
+          setAiChatHistory(next);
+        } catch {}
+        return next;
+      });
     } finally {
       setIsLoading(false);
     }
@@ -444,13 +482,9 @@ export function ChatTab({ context }) {
         </div>
         <div className="flex items-end gap-2">
           <div className="relative flex-1">
-            {!inputValue && (
-              <div className="pointer-events-none absolute left-3 bottom-2 text-sm text-gray-500">
-                {aiEnabled ? 'Ask for patterns, tweaks, or explanations…' : 'Explore sounds or patterns'}
-              </div>
-            )}
             <textarea
-              rows={2}
+              ref={textareaRef}
+              rows={1}
               aria-label="AI prompt"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -458,10 +492,12 @@ export function ChatTab({ context }) {
               onFocus={() => setIsFocused?.(true)}
               onBlur={() => setIsFocused?.(false)}
               className={cx(
-                'w-full resize-none p-2 bg-[#0d0f12] text-gray-100',
+                'w-full resize-none px-3 py-3 bg-[#0d0f12] text-gray-100 placeholder-gray-500',
                 'outline-none border-0 focus:outline-none focus:ring-0 focus:border-0 focus:shadow-none',
                 'font-sans text-sm'
               )}
+              style={{ overflow: 'hidden' }}
+              placeholder={aiEnabled ? 'Ask for patterns, tweaks, or explanations…' : 'Explore sounds or patterns'}
             />
           </div>
           <button

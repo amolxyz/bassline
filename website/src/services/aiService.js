@@ -1,5 +1,6 @@
 // AI Service for Strudel Music Generation (OpenAI GPT-5)
 // This service handles communication with OpenAI API to provide intelligent music assistance
+import { soundMap } from '@strudel/webaudio';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 const OPENAI_MODEL = 'gpt-5-mini'; // Correct model name for GPT-5
@@ -142,6 +143,31 @@ export function buildOpenAIMessages(output, inputValue, songContext = null, curr
   // Returns: OpenAI messages array
   
   let systemPrompt = SYSTEM_PROMPT;
+
+  // Append available sounds from current library so the model only recommends valid sounds
+  try {
+    const sm = soundMap?.get?.() || {};
+    const entries = Object.entries(sm).filter(([key]) => !key.startsWith('_'));
+    if (entries.length) {
+      const byType = entries.reduce((acc, [name, { data = {} } = {}]) => {
+        const type = data.tag === 'drum-machines' ? 'drums' : ['synth', 'soundfont'].includes(data.type) ? 'synths' : data.type === 'sample' ? 'samples' : 'other';
+        (acc[type] ||= []).push(name);
+        return acc;
+      }, {});
+      const clip = (arr, n) => (arr || []).sort().slice(0, 80); // keep prompt compact
+      const synths = clip(byType.synths, 80);
+      const drums = clip(byType.drums, 80);
+      const samples = clip(byType.samples, 80);
+      const availableSection = [
+        '## Available Sounds (use ONLY these exact names with .s())',
+        synths.length ? `Synths: ${synths.join(', ')}` : null,
+        drums.length ? `Drums: ${drums.join(', ')}` : null,
+        samples.length ? `Samples: ${samples.join(', ')}` : null,
+        'Do not invent or guess sound names. If a requested sound is not available, choose a similar one from the list.'
+      ].filter(Boolean).join('\n');
+      systemPrompt += `\n\n${availableSection}`;
+    }
+  } catch {}
   
   // Add song context to system prompt if available
   if (songContext && Object.values(songContext).some(value => value.trim() !== '')) {
