@@ -21,7 +21,8 @@ export const defaultSettings = {
   isSyncEnabled: false,
   isLineWrappingEnabled: false,
   isPatternHighlightingEnabled: true,
-  theme: 'tokyoNight',
+  theme: 'tokyoTheme',
+  // dark mode only
   fontFamily: 'monospace',
   fontSize: 18,
   latestCode: '',
@@ -74,6 +75,7 @@ export function useSettings() {
     isPatternHighlightingEnabled: parseBoolean(state.isPatternHighlightingEnabled),
     isButtonRowHidden: parseBoolean(state.isButtonRowHidden),
     isCSSAnimationDisabled: parseBoolean(state.isCSSAnimationDisabled),
+    isLightMode: parseBoolean(state.isLightMode),
     isTooltipEnabled: parseBoolean(state.isTooltipEnabled),
     isLineWrappingEnabled: parseBoolean(state.isLineWrappingEnabled),
     isFlashEnabled: parseBoolean(state.isFlashEnabled),
@@ -107,8 +109,7 @@ const patternSetting = (key) =>
     }, false),
   );
 
-export const theme = patternSetting('theme');
 export const fontFamily = patternSetting('fontFamily');
 export const fontSize = patternSetting('fontSize');
 
-export const settingPatterns = { theme, fontFamily, fontSize };
+export const settingPatterns = { fontFamily, fontSize };

@@ -84,7 +84,7 @@ export default function AIResult({ content, onAddToEditor }) {
                     {copied ? <Check size={14} /> : <Copy size={14} />}
                   </button>
                   {onAddToEditor && (
-                    <button onClick={() => onAddToEditor(code)} title="Add to editor" className="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white">
+                    <button onClick={() => onAddToEditor(code)} title="Add to editor" className="px-2 py-1 rounded bg-[#f5f5f5] hover:bg-gray-200 text-gray-900">
                       <Plus size={14} />
                     </button>
                   )}
@@ -111,7 +111,7 @@ export default function AIResult({ content, onAddToEditor }) {
             className="text-xs leading-relaxed prose prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: renderSimpleMarkdown(explanation) }}
           />
-          <div className="mt-3 text-xs text-blue-400 flex items-center gap-3">
+          <div className="mt-3 text-xs text-[#f5f5f5] flex items-center gap-3">
             <a href="https://strudel.cc/learn" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
               <ExternalLink size={12} /> Docs
             </a>

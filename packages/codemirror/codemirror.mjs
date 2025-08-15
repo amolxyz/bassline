@@ -51,7 +51,7 @@ export const defaultSettings = {
   isFlashEnabled: true,
   isTooltipEnabled: false,
   isLineWrappingEnabled: false,
-  theme: 'strudelTheme',
+  theme: 'tokyoTheme',
   fontFamily: 'monospace',
   fontSize: 18,
 };
@@ -68,7 +68,8 @@ export function initEditor({ initialCode = '', onChange, onEvaluate, onStop, roo
     compartments[key].of(extensions[key](parseBooleans(settings[key]))),
   );
 
-  initTheme(settings.theme);
+  // Initialize Tokyo dark theme
+  initTheme('tokyoTheme');
   let state = EditorState.create({
     doc: initialCode,
     extensions: [
@@ -289,7 +290,9 @@ export class StrudelMirror {
       effects: compartments[key].reconfigure(newValue),
     });
     if (key === 'theme') {
-      activateTheme(value);
+      // For our new theme system, we'll handle theme changes through light mode
+      // The theme will be applied automatically when light mode changes
+      return;
     }
   }
   setLineWrappingEnabled(enabled) {

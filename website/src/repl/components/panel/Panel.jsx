@@ -139,9 +139,9 @@ function PanelTab({ label, isSelected, onClick, className = '' }) {
       <button
         onClick={onClick}
         className={cx(
-          'h-8 px-4 text-sm mr-2 cursor-pointer flex items-center space-x-1 rounded-lg transition-colors font-medium',
+          'h-8 px-4 text-sm mr-2 cursor-pointer flex items-center space-x-1 rounded-lg transition-colors font-semibold',
           isSelected 
-            ? 'bg-blue-500 text-white' 
+            ? 'bg-[#f5f5f5] text-gray-900' 
             : 'bg-gray-700 text-white hover:bg-gray-600',
           className
         )}

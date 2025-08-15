@@ -65,9 +65,9 @@ export function Header({ context, embedded = false }) {
                 onClick={() => { setTab(tab); setIsPanelOpened(true); }}
                 className={
                   (activeFooter === tab
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-[#f5f5f5] text-gray-900'
                     : 'bg-gray-700 text-white hover:bg-gray-600') +
-                  ' h-8 px-4 text-sm cursor-pointer flex items-center rounded-full font-bold'
+                                      ' h-8 px-4 text-sm cursor-pointer flex items-center rounded-full font-semibold'
                 }
                 style={{ fontFamily: 'Geist, sans-serif' }}
               >

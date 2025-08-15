@@ -120,7 +120,7 @@ export function AISettings() {
             href="https://platform.openai.com/api-keys" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-blue-500 hover:text-blue-600 underline"
+            className="text-[#f5f5f5] hover:text-gray-200 underline"
           >
             OpenAI Console
           </a>
@@ -143,7 +143,7 @@ export function AISettings() {
           <button
             onClick={handleSave}
             disabled={isLoading || !apiKey.trim()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-[#f5f5f5] text-gray-900 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Testing...' : 'Save'}
           </button>
@@ -161,7 +161,7 @@ export function AISettings() {
       {message && (
         <div className={`text-sm p-2 rounded-md ${
           message.includes('successfully') || message.includes('enabled') 
-            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' 
+            ? 'bg-[#f5f5f5] text-gray-800 dark:bg-gray-800 dark:text-[#f5f5f5]' 
             : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
         }`}>
           {message}
@@ -175,11 +175,11 @@ export function AISettings() {
 
       {isValid && (
         <div className="space-y-3">
-          <div className="text-sm text-blue-600 dark:text-blue-400">
+          <div className="text-sm text-[#f5f5f5] dark:text-[#f5f5f5]">
             ✓ API key added - AI Assistant enabled
           </div>
           
-          <div className="text-xs text-gray-600 dark:text-gray-400 bg-blue-50 dark:bg-blue-900/20 p-3 rounded">
+          <div className="text-xs text-gray-600 dark:text-gray-400 bg-[#f5f5f5]/10 dark:bg-[#f5f5f5]/20 p-3 rounded">
             <p className="font-medium mb-2">🚀 AI Assistant Features:</p>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Intelligent Pattern Generation:</strong> Context-aware music creation</li>

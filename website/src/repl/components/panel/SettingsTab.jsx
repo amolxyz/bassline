@@ -1,5 +1,4 @@
 import { defaultSettings, settingsMap, useSettings } from '../../../settings.mjs';
-import { themes } from '@strudel/codemirror';
 import { Textbox } from '../textbox/Textbox.jsx';
 import { isUdels } from '../../util.mjs';
 import { ButtonGroup } from './Forms.jsx';
@@ -64,7 +63,6 @@ function FormItem({ label, children, sublabel }) {
   );
 }
 
-const themeOptions = Object.fromEntries(Object.keys(themes).map((k) => [k, k]));
 const fontFamilyOptions = {
   monospace: 'monospace',
   Courier: 'Courier',
@@ -87,7 +85,6 @@ const RELOAD_MSG = 'Changing this setting requires the window to reload itself. 
 
 export function SettingsTab({ started }) {
   const {
-    theme,
     keybindings,
     isBracketClosingEnabled,
     isBracketMatchingEnabled,
@@ -101,6 +98,7 @@ export function SettingsTab({ started }) {
     isCSSAnimationDisabled,
     isSyncEnabled,
     isLineWrappingEnabled,
+    isLightMode,
     fontSize,
     fontFamily,
     panelPosition,
@@ -179,9 +177,7 @@ export function SettingsTab({ started }) {
           value={multiChannelOrbits}
         />
       </FormItem>
-      <FormItem label="Theme">
-        <SelectInput options={themeOptions} value={theme} onChange={(theme) => settingsMap.setKey('theme', theme)} />
-      </FormItem>
+      {/* Light mode removed; dark mode only */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
         <FormItem label="Font Family">
           <SelectInput

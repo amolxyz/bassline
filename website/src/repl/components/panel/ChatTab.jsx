@@ -287,8 +287,9 @@ export function ChatTab({ context }) {
       onClick={onClick}
       className={cx(
         'px-2 py-1 text-xs rounded-full border',
-        active ? 'bg-blue-600 text-white border-blue-500' : 'bg-gray-800 text-gray-200 border-gray-700 hover:bg-gray-700'
+        active ? 'bg-[#f5f5f5] text-gray-900 border-[#f5f5f5]' : 'bg-gray-800 text-gray-200 border-gray-700 hover:bg-gray-700'
       )}
+      title={active ? 'Click to close panel' : 'Click to open panel'}
     >
       {children}
     </button>
@@ -302,7 +303,7 @@ export function ChatTab({ context }) {
         onClick={() => onChange(!checked)}
         className={cx(
           'relative inline-flex h-5 w-9 items-center rounded-full transition-colors',
-          checked ? 'bg-blue-600' : 'bg-gray-600'
+          checked ? 'bg-[#f5f5f5]' : 'bg-gray-600'
         )}
       >
         <span
@@ -320,10 +321,10 @@ export function ChatTab({ context }) {
       {/* Header Bar with inline panel toggles */}
       <div className="relative flex items-center justify-between mb-3 p-2 bg-transparent rounded-lg">
         <div className="flex items-center gap-2">
-          <TogglePill active={showLiveCoding} onClick={() => setShowLiveCoding((v) => !v)}>Live Coding</TogglePill>
-          <TogglePill active={showTrackContext} onClick={() => setShowTrackContext((v) => !v)}>Track</TogglePill>
-          <TogglePill active={showDocs} onClick={() => setShowDocs((v) => !v)}>Docs</TogglePill>
-          <TogglePill active={showSoundLib} onClick={() => setShowSoundLib((v) => !v)}>Sounds</TogglePill>
+          <TogglePill active={showLiveCoding} onClick={() => setShowLiveCoding(!showLiveCoding)}>Live Coding</TogglePill>
+          <TogglePill active={showTrackContext} onClick={() => setShowTrackContext(!showTrackContext)}>Track</TogglePill>
+          <TogglePill active={showDocs} onClick={() => setShowDocs(!showDocs)}>Docs</TogglePill>
+          <TogglePill active={showSoundLib} onClick={() => setShowSoundLib(!showSoundLib)}>Sounds</TogglePill>
         </div>
         <div className="flex items-center space-x-2">
           <button

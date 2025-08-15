@@ -118,7 +118,7 @@ export function AIExamples({ onSelectPrompt }) {
             onClick={() => setSelectedCategory(index)}
             className={`px-3 py-1 text-sm rounded-md whitespace-nowrap transition-colors ${
               selectedCategory === index
-                ? 'bg-blue-500 text-white'
+                ? 'bg-[#f5f5f5] text-gray-900'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
           >
