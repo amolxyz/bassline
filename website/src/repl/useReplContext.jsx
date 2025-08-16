@@ -264,12 +264,57 @@ export function useReplContext() {
               input.placeholder = 'Ask AI for code...';
             } catch (e) {
               console.warn('Inline AI failed', e);
-              // Show error state briefly
-              isGenerating = false;
-              input.placeholder = 'Error - try again';
+              
+              // Check if it's an API key error and provide helpful guidance
+              let errorMessage = 'Error - try again';
+              if (e.message && e.message.includes('OpenAI API key not configured')) {
+                errorMessage = 'API key required - check settings';
+                
+                // Show a more prominent error message
+                const errorEl = document.createElement('div');
+                errorEl.style.cssText = `
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  width: 100%;
+                  height: 100%;
+                  background: rgba(220, 38, 38, 0.1);
+                  border: 1px solid rgba(220, 38, 38, 0.3);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 8px;
+                  z-index: 1;
+                `;
+                errorEl.innerHTML = `
+                  <div style="color: #fca5a5; font-size: 12px; text-align: center; padding: 8px;">
+                    <div style="margin-bottom: 4px;">🔑 API Key Required</div>
+                    <div style="font-size: 10px; opacity: 0.8;">To use AI features for music creation, add your OpenAI API key</div>
+                  </div>
+                `;
+                
+                // Remove loading overlay and show error
+                const overlay = inputEl.querySelector('div');
+                if (overlay && overlay.parentNode === inputEl) inputEl.removeChild(overlay);
+                inputEl.appendChild(errorEl);
+                
+                // Auto-remove error after 3 seconds
+                setTimeout(() => {
+                  if (errorEl.parentNode === inputEl) {
+                    inputEl.removeChild(errorEl);
+                  }
+                }, 3000);
+              } else {
+                // Show generic error state briefly
+                input.placeholder = errorMessage;
+              }
+              
               // Remove loading, keep input open for retry
               const overlay = inputEl.querySelector('div');
-              if (overlay && overlay.parentNode === inputEl) inputEl.removeChild(overlay);
+              if (overlay && overlay.parentNode === inputEl && !overlay.innerHTML.includes('API Key Required')) {
+                inputEl.removeChild(overlay);
+              }
+              isGenerating = false;
               input.disabled = false;
             }
           };

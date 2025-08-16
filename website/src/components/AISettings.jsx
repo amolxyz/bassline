@@ -56,7 +56,7 @@ export function AISettings() {
         if (testPattern) {
           setAPIKey(apiKey);
           setIsValid(true);
-          setMessage('API key saved successfully! AI Assistant is now enabled.');
+          setMessage('API key saved successfully! AI is now enabled.');
           setTimeout(() => setMessage(''), 5000);
         }
       } catch (patternError) {
@@ -111,11 +111,9 @@ export function AISettings() {
   return (
     <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
       <div>
-        <h3 className="text-lg font-semibold mb-2">AI Assistant Settings</h3>
+        <h3 className="text-lg font-semibold mb-2">Add your API Key</h3>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-          Add your <b>OpenAI API key</b> to enable the intelligent AI music assistant.<br />
-          The AI uses <b>GPT-5</b> for maximum creative output and context-aware assistance.<br />
-          Get your API key from{' '}
+          The AI uses <b>GPT-5-mini</b> for music creation. Get your API key from{' '}
           <a 
             href="https://platform.openai.com/api-keys" 
             target="_blank" 
@@ -174,36 +172,10 @@ export function AISettings() {
       )}
 
       {isValid && (
-        <div className="space-y-3">
-          <div className="text-sm text-[#f5f5f5] dark:text-[#f5f5f5]">
-            ✓ API key added - AI Assistant enabled
-          </div>
-          
-          <div className="text-xs text-gray-600 dark:text-gray-400 bg-[#f5f5f5]/10 dark:bg-[#f5f5f5]/20 p-3 rounded">
-            <p className="font-medium mb-2">🚀 AI Assistant Features:</p>
-            <ul className="list-disc list-inside space-y-1">
-              <li><strong>Intelligent Pattern Generation:</strong> Context-aware music creation</li>
-              <li><strong>Code Analysis:</strong> Understand and explain your patterns</li>
-              <li><strong>Pattern Enhancement:</strong> Improve existing code with suggestions</li>
-              <li><strong>Musical Education:</strong> Learn theory and techniques</li>
-              <li><strong>Creative Inspiration:</strong> Discover new musical directions</li>
-              <li><strong>Problem Solving:</strong> Debug and optimize your patterns</li>
-            </ul>
-          </div>
+        <div className="text-sm text-[#f5f5f5] dark:text-[#f5f5f5]">
+          API key added successfully
         </div>
       )}
-
-      {/* Troubleshooting Tips */}
-      <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 p-3 rounded">
-        <p className="font-medium mb-2">🔧 Troubleshooting Tips:</p>
-        <ul className="list-disc list-inside space-y-1">
-          <li>Make sure your API key starts with "sk-" and is copied completely</li>
-          <li>Check that you have sufficient credits in your OpenAI account</li>
-          <li>Ensure your API key hasn't expired or been revoked</li>
-          <li>Try refreshing the page if you encounter network errors</li>
-          <li>Contact OpenAI support if issues persist</li>
-        </ul>
-      </div>
     </div>
   );
 } 

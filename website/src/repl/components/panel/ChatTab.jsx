@@ -28,6 +28,7 @@ export function ChatTab({ context }) {
   const [showTrackContext, setShowTrackContext] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
   const [showSoundLib, setShowSoundLib] = useState(false);
+  const [showCodeContext, setShowCodeContext] = useState(false);
 
   // Chat prompt options
   const [useCodeContext, setUseCodeContext] = useState(true);
@@ -154,10 +155,17 @@ export function ChatTab({ context }) {
       }
     } catch (error) {
       console.error('AI generation error:', error);
+      
+      // Check if it's an API key error and provide helpful guidance
+      let errorMessage = 'Error: Failed to generate response. Please try again.';
+      if (error.message && error.message.includes('OpenAI API key not configured')) {
+        errorMessage = 'Error: OpenAI API key not configured. To use AI features for music creation, add your OpenAI API key.';
+      }
+      
       const errorOutput = {
         id: Date.now() + 1,
         type: 'error',
-        content: 'Error: Failed to generate response. Please try again.',
+        content: errorMessage,
         timestamp: new Date()
       };
       setOutput((prev) => {
@@ -190,10 +198,17 @@ export function ChatTab({ context }) {
       setOutput((prev) => [...prev, analysisOutput]);
     } catch (error) {
       console.error('Code analysis error:', error);
+      
+      // Check if it's an API key error and provide helpful guidance
+      let errorMessage = 'Error: Failed to analyze code. Please try again.';
+      if (error.message && error.message.includes('OpenAI API key not configured')) {
+        errorMessage = 'Error: OpenAI API key not configured. To use AI features for music creation, add your OpenAI API key.';
+      }
+      
       const errorOutput = {
         id: Date.now(),
         type: 'error',
-        content: 'Error: Failed to analyze code. Please try again.',
+        content: errorMessage,
         timestamp: new Date()
       };
       setOutput((prev) => [...prev, errorOutput]);
@@ -273,7 +288,36 @@ export function ChatTab({ context }) {
       );
     }
     if (item.type === 'error') {
-      return item.content;
+      // Check if it's an API key error to render it specially
+      if (item.content.includes('OpenAI API key not configured')) {
+        return (
+          <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4 text-red-200">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center">
+                <span className="text-red-400 text-xs">!</span>
+              </div>
+              <div className="flex-1">
+                <h4 className="font-medium text-red-100 mb-2">API Key Required</h4>
+                <p className="text-sm text-red-200/80 mb-3">
+                  To use AI features for music creation, add your OpenAI API key.
+                </p>
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className="px-3 py-2 bg-[#f5f5f5] hover:bg-gray-200 text-gray-900 text-sm rounded-md transition-colors"
+                >
+                  Open AI Settings
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      // For other errors, render as plain text
+      return (
+        <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-3 text-red-200">
+          {item.content}
+        </div>
+      );
     }
     return (
       <div className="rounded border border-gray-800 bg-transparent px-3 py-2 text-gray-300">
@@ -323,6 +367,7 @@ export function ChatTab({ context }) {
         <div className="flex items-center gap-2">
           <TogglePill active={showLiveCoding} onClick={() => setShowLiveCoding(!showLiveCoding)}>Live Coding</TogglePill>
           <TogglePill active={showTrackContext} onClick={() => setShowTrackContext(!showTrackContext)}>Track</TogglePill>
+          <TogglePill active={showCodeContext} onClick={() => setShowCodeContext(!showCodeContext)}>Track Context</TogglePill>
           <TogglePill active={showDocs} onClick={() => setShowDocs(!showDocs)}>Docs</TogglePill>
           <TogglePill active={showSoundLib} onClick={() => setShowSoundLib(!showSoundLib)}>Sounds</TogglePill>
         </div>
@@ -351,28 +396,32 @@ export function ChatTab({ context }) {
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => handleQuickAction('analyze')}
-              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700"
+              disabled={!aiEnabled}
+              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Code size={12} />
               <span>Analyze Code</span>
             </button>
             <button
               onClick={() => handleQuickAction('enhance')}
-              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700"
+              disabled={!aiEnabled}
+              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Music size={12} />
               <span>Enhance Pattern</span>
             </button>
             <button
               onClick={() => handleQuickAction('variation')}
-              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700"
+              disabled={!aiEnabled}
+              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Lightbulb size={12} />
               <span>Create Variation</span>
             </button>
             <button
               onClick={() => handleQuickAction('complement')}
-              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700"
+              disabled={!aiEnabled}
+              className="flex items-center gap-2 p-2 text-xs bg-gray-800 text-gray-100 rounded-full border border-gray-700 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <HelpCircle size={12} />
               <span>Find Complement</span>
@@ -393,15 +442,16 @@ export function ChatTab({ context }) {
       {showDocs && <DocumentationReference />}
       {showSoundLib && <SoundLibraryReference />}
 
-      {/* Current Code Context Display */}
-      {currentCode.trim() && (
+      {/* Track Context Display */}
+      {showCodeContext && currentCode.trim() && (
         <div className="mb-4 p-3 bg-[#0d0f12] border border-gray-800 rounded-lg">
           <div className="flex items-center justify-between mb-2">
-            <div className="text-sm font-medium text-gray-200">Current Code Context</div>
+            <div className="text-sm font-medium text-gray-200">Track Context</div>
             <button
               onClick={handleAnalyzeCode}
-              disabled={isLoading}
-              className="px-2 py-1 text-xs bg-purple-600 text-white rounded-full hover:bg-purple-500 disabled:opacity-50"
+              disabled={!aiEnabled || isLoading}
+              className="px-2 py-1 text-xs bg-purple-600 text-white rounded-full hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              title={!aiEnabled ? "Add API key to enable AI analysis" : "Analyze current code"}
             >
               Analyze
             </button>
@@ -455,6 +505,29 @@ export function ChatTab({ context }) {
         <div ref={outputEndRef} />
       </div>
 
+      {/* AI Not Enabled Message */}
+      {!aiEnabled && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-gray-500/10 to-gray-600/10 border border-gray-500/20 rounded-lg">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gray-500/20 flex items-center justify-center">
+              <span className="text-gray-400 text-sm">🤖</span>
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-gray-100 mb-2">AI Not Enabled</h4>
+              <p className="text-sm text-gray-200/80 mb-3">
+                To use AI features for music creation, add your OpenAI API key.
+              </p>
+              <button
+                onClick={() => setShowSettings(true)}
+                className="px-4 py-2 bg-[#f5f5f5] hover:bg-gray-200 text-gray-900 text-sm rounded-full transition-colors"
+              >
+                Add API Key
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Input with icon-only Options */}
       <div className="p-2 bg-[#0d0f12] border border-gray-800 rounded-lg mb-4">
         <div className="flex items-center justify-between mb-2">
@@ -492,20 +565,22 @@ export function ChatTab({ context }) {
               onKeyDown={handleKeyDown}
               onFocus={() => setIsFocused?.(true)}
               onBlur={() => setIsFocused?.(false)}
+              disabled={!aiEnabled}
               className={cx(
                 'w-full resize-none px-3 py-3 bg-[#0d0f12] text-gray-100 placeholder-gray-500',
                 'outline-none border-0 focus:outline-none focus:ring-0 focus:border-0 focus:shadow-none',
-                'font-sans text-sm'
+                'font-sans text-sm',
+                !aiEnabled && 'opacity-50 cursor-not-allowed'
               )}
               style={{ overflow: 'hidden' }}
-              placeholder={aiEnabled ? 'Ask for patterns, tweaks, or explanations…' : 'Explore sounds or patterns'}
+              placeholder={aiEnabled ? 'Ask for patterns, tweaks, or explanations…' : 'Add your OpenAI API key to enable AI features'}
             />
           </div>
           <button
             onClick={handleExecute}
-            disabled={!inputValue.trim() || isLoading}
+            disabled={!aiEnabled || !inputValue.trim() || isLoading}
             className="p-1.5 rounded-full bg-transparent hover:bg-gray-800 text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            title="Send (Enter)"
+            title={aiEnabled ? "Send (Enter)" : "Add API key to enable AI features"}
           >
             <ArrowUpCircle size={22} />
           </button>

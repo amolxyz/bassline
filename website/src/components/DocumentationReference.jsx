@@ -70,7 +70,7 @@ export function DocumentationReference() {
 
         <div className="mt-3 pt-3 border-t border-blue-200 dark:border-blue-800">
           <p className="text-xs text-gray-600 dark:text-gray-400">
-            <strong>Note:</strong> The AI assistant is trained on the latest Strudel documentation 
+            <strong>Note:</strong> The AI is trained on the latest Strudel documentation 
             and can help you with specific questions about patterns and functions.
           </p>
         </div>

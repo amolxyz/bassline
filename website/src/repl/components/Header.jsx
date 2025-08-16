@@ -156,6 +156,41 @@ export function Header({ context, embedded = false }) {
                 }
               } catch (e) {
                 console.warn('AI command failed', e);
+                // Check if it's an API key error and show a helpful message
+                if (e.message && e.message.includes('OpenAI API key not configured')) {
+                  // Show a toast-like notification
+                  const toast = document.createElement('div');
+                  toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #dc2626;
+                    color: white;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    z-index: 10000;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    max-width: 300px;
+                  `;
+                  toast.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span>🔑</span>
+                      <div>
+                        <div style="font-weight: 500;">API Key Required</div>
+                        <div style="font-size: 12px; opacity: 0.9;">To use AI features for music creation, add your OpenAI API key</div>
+                      </div>
+                    </div>
+                  `;
+                  document.body.appendChild(toast);
+                  
+                  // Auto-remove after 5 seconds
+                  setTimeout(() => {
+                    if (toast.parentNode) {
+                      toast.parentNode.removeChild(toast);
+                    }
+                  }, 5000);
+                }
               }
             }
             hide();
@@ -183,6 +218,41 @@ export function Header({ context, embedded = false }) {
                 }
               } catch (err) {
                 console.warn('AI error', err);
+                // Check if it's an API key error and show a helpful message
+                if (err.message && err.message.includes('OpenAI API key not configured')) {
+                  // Show a toast-like notification
+                  const toast = document.createElement('div');
+                  toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #dc2626;
+                    color: white;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    z-index: 10000;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    max-width: 300px;
+                  `;
+                  toast.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span>🔑</span>
+                      <div>
+                        <div style="font-weight: 500;">API Key Required</div>
+                        <div style="font-size: 12px; opacity: 0.9;">To use AI features for music creation, add your OpenAI API key</div>
+                      </div>
+                    </div>
+                  `;
+                  document.body.appendChild(toast);
+                  
+                  // Auto-remove after 5 seconds
+                  setTimeout(() => {
+                    if (toast.parentNode) {
+                      toast.parentNode.removeChild(toast);
+                    }
+                  }, 5000);
+                }
               }
               hide();
             }

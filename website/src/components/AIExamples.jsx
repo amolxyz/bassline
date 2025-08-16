@@ -108,7 +108,7 @@ export function AIExamples({ onSelectPrompt }) {
 
   return (
     <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-      <h3 className="text-lg font-semibold mb-3">AI Assistant Examples</h3>
+              <h3 className="text-lg font-semibold mb-3">AI Examples</h3>
       
       {/* Category Tabs */}
       <div className="flex space-x-2 overflow-x-auto pb-2">
@@ -141,7 +141,7 @@ export function AIExamples({ onSelectPrompt }) {
       </div>
 
       <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-        <p>🚀 <strong>AI Assistant Capabilities:</strong></p>
+        <p>🚀 <strong>AI Capabilities:</strong></p>
         <ul className="list-disc list-inside space-y-1 ml-2">
           <li><strong>Code Analysis:</strong> Understand and explain your current patterns</li>
           <li><strong>Pattern Enhancement:</strong> Improve and vary existing code</li>
