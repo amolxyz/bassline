@@ -1,4 +1,4 @@
-import { closeBrackets } from '@codemirror/autocomplete';
+import { closeBrackets, acceptCompletion, startCompletion } from '@codemirror/autocomplete';
 export { toggleComment, toggleBlockComment, toggleLineComment, toggleBlockCommentByLine } from '@codemirror/commands';
 // import { search, highlightSelectionMatches } from '@codemirror/search';
 import { history } from '@codemirror/commands';
@@ -46,7 +46,7 @@ export const defaultSettings = {
   isBracketClosingEnabled: true,
   isLineNumbersDisplayed: true,
   isActiveLineHighlighted: false,
-  isAutoCompletionEnabled: false,
+  isAutoCompletionEnabled: true,
   isPatternHighlightingEnabled: true,
   isFlashEnabled: true,
   isTooltipEnabled: false,
@@ -62,7 +62,7 @@ export const codemirrorSettings = persistentAtom('codemirror-settings', defaultS
 });
 
 // https://codemirror.net/docs/guide/
-export function initEditor({ initialCode = '', onChange, onEvaluate, onStop, root }) {
+export function initEditor({ initialCode = '', onChange, onEvaluate, onStop, onInlineAI, root }) {
   const settings = codemirrorSettings.get();
   const initialSettings = Object.keys(compartments).map((key) =>
     compartments[key].of(extensions[key](parseBooleans(settings[key]))),
@@ -104,6 +104,23 @@ export function initEditor({ initialCode = '', onChange, onEvaluate, onStop, roo
             preventDefault: true,
             run: () => onStop?.(),
           },
+          {
+            key: 'Tab',
+            preventDefault: false,
+            run: (view) => acceptCompletion(view) || false,
+          },
+          {
+            key: 'Ctrl-Space',
+            run: (view) => startCompletion(view),
+          },
+          {
+            key: 'Mod-i',
+            preventDefault: true,
+            run: () => {
+              onInlineAI?.();
+              return true;
+            },
+          },
           /* {
           key: 'Ctrl-Shift-.',
           run: () => (onPanic ? onPanic() : onStop?.()),
@@ -136,6 +153,7 @@ export class StrudelMirror {
       prebake,
       bgFill = true,
       solo = true,
+      onInlineAI,
       ...replOptions
     } = options;
     this.code = initialCode;
@@ -210,6 +228,7 @@ export class StrudelMirror {
       },
       onEvaluate: () => this.evaluate(),
       onStop: () => this.stop(),
+      onInlineAI,
     });
     const cmEditor = this.root.querySelector('.cm-editor');
     if (cmEditor) {
@@ -349,6 +368,9 @@ export class StrudelMirror {
     const cursor = this.getCursorLocation();
     this.setCode(this.code + code);
     this.setCursorLocation(cursor);
+  }
+  getCode() {
+    return this.code;
   }
 }
 

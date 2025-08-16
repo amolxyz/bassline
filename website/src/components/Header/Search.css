@@ -8,7 +8,7 @@
   --docsearch-highlight-color: var(--foreground);
   --docsearch-searchbox-background: var(--lineBackground);
   --docsearch-searchbox-focus-background: var(--lineBackground);
-  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--lineHighlight);
+  --docsearch-searchbox-shadow: none;
   --docsearch-hit-background: var(--background);
   --docsearch-hit-active-color: var(--background);
   --docsearch-hit-color: var(--foreground);
@@ -104,8 +104,9 @@
 }
 #docsearch-input.DocSearch-Input {
   background-color: var(--lineBackground);
-  border-top: 3px solid var(--docsearch-searchbox-shadow);
-  border-bottom: 3px solid var(--docsearch-searchbox-shadow);
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
 }
 .DocSearch-Commands-Key {
   color: var(--background);

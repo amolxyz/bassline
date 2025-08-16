@@ -9,13 +9,13 @@ export const audioEngineTargets = {
 };
 
 export const defaultSettings = {
-  activeFooter: 'intro',
+  activeFooter: 'chat',
   keybindings: 'codemirror',
   isBracketMatchingEnabled: true,
   isBracketClosingEnabled: true,
   isLineNumbersDisplayed: true,
   isActiveLineHighlighted: true,
-  isAutoCompletionEnabled: false,
+  isAutoCompletionEnabled: true,
   isTooltipEnabled: false,
   isFlashEnabled: true,
   isSyncEnabled: false,

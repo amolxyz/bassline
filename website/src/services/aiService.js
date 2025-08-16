@@ -316,6 +316,47 @@ ${currentCode}
       }
     }
   }
+
+  // New method for inline code generation using smaller model
+  async generateInlineCode(userRequest, currentCode = null) {
+    if (!this.apiKey) {
+      throw new Error('OpenAI API key not configured');
+    }
+
+    const contextSection = currentCode && String(currentCode).trim()
+      ? `\n\nCurrent code context (for reference, do not repeat unless asked):\n\`\`\`javascript\n${currentCode}\n\`\`\``
+      : '';
+
+    const inlinePrompt = `You are a Strudel code modifier/generator. Respond with a single line of valid Strudel code that can be pasted directly into the editor.${contextSection}
+\nUser request: ${userRequest}\n\nRules:\n- If modifying a value on the current line/effect, return ONLY the replacement line or chain (e.g., ".gain(0.5)" or ".room(0.3).cutoff(900)").\n- If adding an instrument/voice, return a complete one-line pattern using Strudel syntax, e.g., \n  - s(\"bd sd\").bank(\"tr909\").gain(0.4)\n  - note(\"c4 e4 g4\").s(\"piano\").gain(0.3)\n- Use only valid function names (s, note, stack, gain, room, cutoff, slow, fast, every, etc.).\n- Do NOT return placeholders, English sentences, or markdown.\n- Return ONLY the code.`;
+
+    try {
+      const response = await this._makeOpenAIRequest('gpt-4o-mini', [
+        { role: 'system', content: 'You output only valid, executable Strudel code. No explanations.' },
+        { role: 'user', content: inlinePrompt }
+      ]);
+      
+      let cleanCode = String(response).trim();
+      cleanCode = cleanCode.replace(/```[a-zA-Z]*\n?/g, '').replace(/```$/g, '');
+      cleanCode = cleanCode.replace(/^[^a-zA-Z0-9_$(\n]*/, '');
+      return cleanCode;
+    } catch (error) {
+      console.warn('gpt-4o-mini failed, trying fallback:', error);
+      try {
+        const fallbackResponse = await this._makeOpenAIRequest(OPENAI_MODEL, [
+          { role: 'system', content: 'You output only valid, executable Strudel code. No explanations.' },
+          { role: 'user', content: inlinePrompt }
+        ]);
+        let cleanCode = String(fallbackResponse).trim();
+        cleanCode = cleanCode.replace(/```[a-zA-Z]*\n?/g, '').replace(/```$/g, '');
+        cleanCode = cleanCode.replace(/^[^a-zA-Z0-9_$(\n]*/, '');
+        return cleanCode;
+      } catch (fallbackError) {
+        console.error('Both models failed:', fallbackError);
+        throw fallbackError;
+      }
+    }
+  }
 }
 
 // Create a singleton instance
