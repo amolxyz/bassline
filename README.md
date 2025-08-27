@@ -1,15 +1,20 @@
-# strudel
+# Bassline
 
-Live coding patterns on the web
-https://strudel.cc/
+Bassline is a music live coding environment for the browser that brings the TidalCycles pattern language to JavaScript and uses AI to co-compose with you.
 
-Development is moving to https://codeberg.org/uzu/strudel
-
-- Try it here: <https://strudel.cc>
+- Live REPL: <https://bassline.day>
 - Docs: <https://strudel.cc/learn>
-- Technical Blog Post: <https://loophole-letters.vercel.app/strudel>
-- 1 Year of Strudel Blog Post: <https://loophole-letters.vercel.app/strudel1year>
-- 2 Years of Strudel Blog Post: <https://strudel.cc/blog/#year-2>
+- Source: <https://github.com/strudel-cc/strudel>
+
+## What is Bassline?
+
+Bassline lets you write and perform algorithmic patterns for drums, melodies, harmonies and more directly in your browser. It ports core ideas from TidalCycles to a modern JavaScript runtime, with first‑class support for Web Audio, MIDI and OSC, and an extensible package architecture.
+
+Highlights:
+- Live‑coding REPL in the browser (and optional desktop build)
+- Tidal‑style pattern language in JavaScript
+- WebAudio engine with effects; MIDI/OSC output; sample and synth support
+- Installable PWA, theming, and rich documentation
 
 ## Running Locally
 
@@ -17,39 +22,30 @@ After cloning the project, you can run the REPL locally:
 
 1. Install [Node.js](https://nodejs.org/)
 2. Install [pnpm](https://pnpm.io/installation)
-3. Install dependencies by running the following command:
+3. Install dependencies:
    ```bash
    pnpm i
    ```
-4. Run the development server:
+4. Start the development server:
    ```bash
    pnpm dev
    ```
 
-## Using Strudel In Your Project
+## Using Bassline in Your Project
 
 This project is organized into many [packages](./packages), which are also available on [npm](https://www.npmjs.com/search?q=%40strudel).
 
 Read more about how to use these in your own project [here](https://strudel.cc/technical-manual/project-start).
 
-You will need to abide by the terms of the [GNU Affero Public Licence v3](LICENSE.md). As such, Strudel code can only be shared within free/open source projects under the same license -- see the license for details.
+Bassline is free/open source software under the GNU Affero General Public License v3. See the license for details. Adapted from [TidalCycles](https://tidalcycles.org/) and [Strudel](https://strudel.cc).
 
-Licensing info for the default sound banks can be found over on the [dough-samples](https://github.com/felixroos/dough-samples/blob/main/README.md) repository.
+Licensing info for the default sound banks can be found in the [dough-samples](https://github.com/felixroos/dough-samples/blob/main/README.md) repository.
 
 ## Contributing
 
-There are many ways to contribute to this project! See [contribution guide](./CONTRIBUTING.md).
+There are many ways to contribute! See the [contribution guide](./CONTRIBUTING.md).
 
-<a href="https://codeberg.org/uzu/strudel/activity/contributors">
-  <img src="https://contrib.rocks/image?repo=tidalcycles/strudel" />
-</a>
 
-Made with [contrib.rocks](https://contrib.rocks).
+---
 
-## Community
-
-There is a #strudel channel on the TidalCycles discord: <https://discord.com/invite/HGEdXmRkzT>
-
-You can also ask questions and find related discussions on the tidal club forum: <https://club.tidalcycles.org/>
-
-The discord and forum is shared with the haskell (tidal) and python (vortex) siblings of this project.
+Built with love on top of Strudel.
