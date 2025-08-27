@@ -299,6 +299,7 @@ export function Header({ context, embedded = false }) {
             <div className="space-x-2 ml-2 flex items-center">
               <img src="/logo.svg" alt="Bassline Logo" className="w-5 h-5 flex-shrink-0" />
               <span className="text-[1.1rem] font-extrabold tracking-tight flex items-center" style={{ fontFamily: 'Quando, serif', color: '#F5F5F5' }}>bassline</span>
+              <span className="inline-flex items-center px-2 py-0 text-[11px] font-extrabold uppercase tracking-wide rounded-full border border-white/20 text-gray-200/80 bg-white/5">Beta</span>
               {!isEmbedded && isButtonRowHidden && (
                 <a href={`${baseNoTrailing}/learn`} className="text-sm opacity-25 font-medium">
                   DOCS
@@ -316,7 +317,7 @@ export function Header({ context, embedded = false }) {
             {[
               { label: 'Tracks', tab: 'patterns' },
               { label: 'Sounds', tab: 'sounds' },
-              { label: 'Chat', tab: 'chat' },
+              { label: 'Compose', tab: 'chat' },
               { label: 'Reference', tab: 'reference' },
               { label: 'Console', tab: 'console' },
               { label: 'Settings', tab: 'settings' },
