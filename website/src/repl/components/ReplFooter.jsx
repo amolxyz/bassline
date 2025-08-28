@@ -69,7 +69,7 @@ export function ReplFooter({ context, embedded = false }) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          className="inline-block w-4 h-4 text-red-500 align-[-0.32em] mx-px"
+          className="inline-block w-4 h-4 align-[-0.32em] mx-px"
           fill="currentColor"
           aria-hidden="true"
           focusable="false"
