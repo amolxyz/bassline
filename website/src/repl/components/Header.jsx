@@ -1,5 +1,6 @@
 import PlayCircleIcon from '@heroicons/react/20/solid/PlayCircleIcon';
 import StopCircleIcon from '@heroicons/react/20/solid/StopCircleIcon';
+import Cog6ToothIcon from '@heroicons/react/24/outline/Cog6ToothIcon';
 import cx from '@src/cx.mjs';
 import { useSettings, setIsZen, setActiveFooter as setTab, setIsPanelOpened } from '../../settings.mjs';
 import { getAIService } from '../../services/aiService.js';
@@ -320,7 +321,6 @@ export function Header({ context, embedded = false }) {
               { label: 'Compose', tab: 'chat' },
               { label: 'Reference', tab: 'reference' },
               { label: 'Console', tab: 'console' },
-              { label: 'Settings', tab: 'settings' },
             ].map(({ label, tab }) => (
               <button
                 key={tab}
@@ -337,6 +337,17 @@ export function Header({ context, embedded = false }) {
               </button>
             ))}
           </div>
+        )}
+        {!isEmbedded && (
+          <button
+            title="settings"
+            className={cx(
+              'cursor-pointer hover:opacity-50 flex items-center space-x-1 p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors',
+            )}
+            onClick={() => { setTab('settings'); setIsPanelOpened(true); }}
+          >
+            <Cog6ToothIcon className="w-5 h-5 text-[#F5F5F5]" />
+          </button>
         )}
         {!isEmbedded && (
           <button
