@@ -63,9 +63,27 @@ export function ReplFooter({ context, embedded = false }) {
           </a>
         </div>
 
-      {/* Built with Strudel on the right */}
+      {/* Built on Strudel with heart and attribution on the right */}
       <div className="text-xs text-gray-400">
-        Built with Strudel
+        Built on Strudel with{' '}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          className="inline-block w-4 h-4 text-red-500 align-[-0.32em] mx-px"
+          fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M11.645 20.01l-.007-.003-.022-.012a15.247 15.247 0 01-1.403-.836 25.18 25.18 0 01-4.356-3.165C3.112 13.37 1.5 11.353 1.5 9A5.25 5.25 0 016.75 3.75c1.503 0 2.905.634 3.885 1.66a5.235 5.235 0 013.615-1.66A5.25 5.25 0 0119.5 9c0 2.353-1.612 4.371-4.357 6.004a25.175 25.175 0 01-4.356 3.165 15.247 15.247 0 01-1.403.836l-.022.012-.007.003-.003.001a.75.75 0 01-.66 0l-.003-.001z" />
+        </svg>{' '}by{' '}
+        <a
+          href="https://x.com/itsjustamol"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-foreground"
+        >
+          amol
+        </a>
       </div>
     </footer>
   );

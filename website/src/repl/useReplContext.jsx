@@ -454,7 +454,6 @@ export function useReplContext() {
     editorRef.current.setCode(patternData.code);
     if (reset) {
       await resetEditor();
-      handleEvaluate();
     }
   };
 
@@ -469,7 +468,6 @@ export function useReplContext() {
     setViewingPatternData(patternData);
     await resetEditor();
     editorRef.current.setCode(code);
-    editorRef.current.repl.evaluate(code);
   };
 
   const handleShare = async () => shareCode(replState.code);
